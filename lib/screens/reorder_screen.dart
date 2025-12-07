@@ -61,6 +61,10 @@ class _ReorderScreenState extends State<ReorderScreen> {
 
     setState(() {
       _handPlayers.remove(_selectedPlayer);
+      // 既存のカードがあれば手元に戻す
+      if (_slots[slotIndex] != null) {
+        _handPlayers.add(_slots[slotIndex]!);
+      }
       _slots[slotIndex] = _selectedPlayer;
       _selectedPlayer = null;
     });
@@ -283,7 +287,18 @@ class _ReorderScreenState extends State<ReorderScreen> {
                       color: AppColors.neonPink,
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l10n.arrangementHint,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: AppColors.mutedGray,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Text(
                     '$filledCount / $_totalPlayers',
                     style: TextStyle(
@@ -316,142 +331,194 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
+  void _moveToEmptySlot(int fromIndex, int toIndex) {
+    setState(() {
+      _slots[toIndex] = _slots[fromIndex];
+      _slots[fromIndex] = null;
+    });
+  }
+
   Widget _buildEmptySlot(int index, AppLocalizations l10n) {
     final isSelectable = _selectedPlayer != null;
 
-    return GestureDetector(
-      onTap: isSelectable ? () => _placeInSlot(index) : null,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelectable
-              ? AppColors.softGold.withValues(alpha: 0.1)
-              : AppColors.darkBg.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isSelectable
-                ? AppColors.softGold.withValues(alpha: 0.8)
-                : AppColors.mutedGray.withValues(alpha: 0.3),
-            width: isSelectable ? 2 : 1,
-            strokeAlign: BorderSide.strokeAlignInside,
-          ),
-        ),
-        child: Row(
-          children: [
-            // Rank badge
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: AppColors.mutedGray.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: AppColors.mutedGray.withValues(alpha: 0.5),
-                  width: 1,
-                ),
+    return DragTarget<int>(
+      onAcceptWithDetails: (details) {
+        _moveToEmptySlot(details.data, index);
+      },
+      builder: (context, candidateData, rejectedData) {
+        final isDropTarget = candidateData.isNotEmpty;
+
+        return GestureDetector(
+          onTap: isSelectable ? () => _placeInSlot(index) : null,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: isDropTarget
+                  ? AppColors.electricPurple.withValues(alpha: 0.2)
+                  : isSelectable
+                      ? AppColors.softGold.withValues(alpha: 0.1)
+                      : AppColors.darkBg.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isDropTarget
+                    ? AppColors.electricPurple
+                    : isSelectable
+                        ? AppColors.softGold.withValues(alpha: 0.8)
+                        : AppColors.mutedGray.withValues(alpha: 0.3),
+                width: isDropTarget || isSelectable ? 2 : 1,
+                strokeAlign: BorderSide.strokeAlignInside,
               ),
-              child: Center(
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.mutedGray,
+            ),
+            child: Row(
+              children: [
+                // Rank badge
+                Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: isDropTarget
+                        ? AppColors.electricPurple.withValues(alpha: 0.3)
+                        : AppColors.mutedGray.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: isDropTarget
+                          ? AppColors.electricPurple
+                          : AppColors.mutedGray.withValues(alpha: 0.5),
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isDropTarget
+                            ? AppColors.electricPurple
+                            : AppColors.mutedGray,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            // Empty slot indicator
-            Expanded(
-              child: Text(
-                isSelectable ? l10n.tapToPlaceHere : '—',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isSelectable
-                      ? AppColors.softGold
-                      : AppColors.mutedGray.withValues(alpha: 0.5),
-                  fontStyle: FontStyle.italic,
+                const SizedBox(width: 12),
+                // Empty slot indicator
+                Expanded(
+                  child: Text(
+                    isDropTarget
+                        ? l10n.tapToPlaceHere
+                        : isSelectable
+                            ? l10n.tapToPlaceHere
+                            : '—',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isDropTarget
+                          ? AppColors.electricPurple
+                          : isSelectable
+                              ? AppColors.softGold
+                              : AppColors.mutedGray.withValues(alpha: 0.5),
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
                 ),
-              ),
+                if (isDropTarget)
+                  Icon(
+                    Icons.arrow_downward,
+                    size: 20,
+                    color: AppColors.electricPurple,
+                  )
+                else if (isSelectable)
+                  Icon(
+                    Icons.add_circle,
+                    size: 20,
+                    color: AppColors.softGold,
+                  ),
+              ],
             ),
-            if (isSelectable)
-              Icon(
-                Icons.add_circle,
-                size: 20,
-                color: AppColors.softGold,
-              ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildFilledSlot(Player player, int index, AppLocalizations l10n) {
-    return LongPressDraggable<int>(
-      data: index,
-      feedback: Material(
-        color: Colors.transparent,
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width - 48,
-          child: _buildSlotContent(player, index, isDragging: true),
-        ),
-      ),
-      childWhenDragging: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.darkBg.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.neonPink.withValues(alpha: 0.2),
-            width: 1,
+    return DragTarget<int>(
+      onAcceptWithDetails: (details) {
+        _swapSlots(details.data, index);
+      },
+      builder: (context, candidateData, rejectedData) {
+        final isDropTarget = candidateData.isNotEmpty;
+        return Draggable<int>(
+          data: index,
+          onDragStarted: () {
+            setState(() {
+              _selectedPlayer = null;
+            });
+          },
+          feedback: Material(
+            color: Colors.transparent,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width - 48,
+              child: _buildSlotContent(player, index, isDragging: true),
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: AppColors.mutedGray.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(6),
+          childWhenDragging: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.darkBg.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: AppColors.neonPink.withValues(alpha: 0.2),
+                width: 1,
               ),
-              child: Center(
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.mutedGray.withValues(alpha: 0.5),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: AppColors.mutedGray.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.mutedGray.withValues(alpha: 0.5),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                Text(
+                  l10n.moving,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.mutedGray.withValues(alpha: 0.5),
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            Text(
-              l10n.moving,
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.mutedGray.withValues(alpha: 0.5),
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ],
-        ),
-      ),
-      child: DragTarget<int>(
-        onAcceptWithDetails: (details) {
-          _swapSlots(details.data, index);
-        },
-        builder: (context, candidateData, rejectedData) {
-          final isDropTarget = candidateData.isNotEmpty;
-          return _buildSlotContent(player, index, isDropTarget: isDropTarget);
-        },
-      ),
+          ),
+          child: _buildSlotContent(
+            player,
+            index,
+            isDropTarget: isDropTarget,
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildSlotContent(Player player, int index, {bool isDragging = false, bool isDropTarget = false}) {
+  Widget _buildSlotContent(
+    Player player,
+    int index, {
+    bool isDragging = false,
+    bool isDropTarget = false,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -581,7 +648,18 @@ class _ReorderScreenState extends State<ReorderScreen> {
                     color: AppColors.electricPurple,
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.handHint,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: AppColors.mutedGray,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 Text(
                   l10n.handCardsCount(_handPlayers.length),
                   style: TextStyle(

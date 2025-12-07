@@ -197,7 +197,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arrangementOrder => 'Order';
 
   @override
+  String get arrangementHint => 'Drag to reorder, × to return';
+
+  @override
   String get tapToPlaceHere => 'Tap to place';
+
+  @override
+  String get handHint => 'Select a card and place it above';
 
   @override
   String get moving => 'Moving...';

@@ -448,11 +448,23 @@ abstract class AppLocalizations {
   /// **'並び順'**
   String get arrangementOrder;
 
+  /// No description provided for @arrangementHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'ドラッグで順番変更・×で差し戻し'**
+  String get arrangementHint;
+
   /// No description provided for @tapToPlaceHere.
   ///
   /// In ja, this message translates to:
   /// **'タップして配置'**
   String get tapToPlaceHere;
+
+  /// No description provided for @handHint.
+  ///
+  /// In ja, this message translates to:
+  /// **'カードを選んで上の枠に配置してね'**
+  String get handHint;
 
   /// No description provided for @moving.
   ///

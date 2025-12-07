@@ -195,7 +195,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get arrangementOrder => '정렬 순서';
 
   @override
+  String get arrangementHint => '드래그로 순서 변경, ×로 되돌리기';
+
+  @override
   String get tapToPlaceHere => '탭하여 배치';
+
+  @override
+  String get handHint => '카드를 선택해서 위의 칸에 배치하세요';
 
   @override
   String get moving => '이동 중...';

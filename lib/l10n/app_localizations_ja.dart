@@ -195,7 +195,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get arrangementOrder => '並び順';
 
   @override
+  String get arrangementHint => 'ドラッグで順番変更・×で差し戻し';
+
+  @override
   String get tapToPlaceHere => 'タップして配置';
+
+  @override
+  String get handHint => 'カードを選んで上の枠に配置してね';
 
   @override
   String get moving => '移動中...';
