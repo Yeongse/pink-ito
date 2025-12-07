@@ -10,6 +10,7 @@ import 'screens/number_distribution_screen.dart';
 import 'screens/expression_time_screen.dart';
 import 'screens/reorder_screen.dart';
 import 'screens/result_screen.dart';
+import 'screens/how_to_play_screen.dart';
 import 'widgets/fade_slide_route.dart';
 
 void main() {
@@ -41,7 +42,15 @@ class PinkItoApp extends StatelessWidget {
             onStartPressed: (context) {
               Navigator.of(context).pushNamed('/player-setup');
             },
+            onHowToPlayPressed: (context) {
+              Navigator.of(context).pushNamed('/how-to-play');
+            },
           ),
+        );
+
+      case '/how-to-play':
+        return FadeSlideRoute(
+          page: const HowToPlayScreen(),
         );
 
       case '/player-setup':
@@ -97,6 +106,12 @@ class PinkItoApp extends StatelessWidget {
             onPlayAgain: (context) {
               Navigator.of(context).pushNamedAndRemoveUntil(
                 '/theme-display',
+                (route) => route.settings.name == '/',
+              );
+            },
+            onChangeSettings: (context) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/player-setup',
                 (route) => route.settings.name == '/',
               );
             },

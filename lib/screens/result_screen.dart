@@ -12,12 +12,14 @@ import '../widgets/player_card.dart';
 
 class ResultScreen extends StatefulWidget {
   final void Function(BuildContext context)? onPlayAgain;
+  final void Function(BuildContext context)? onChangeSettings;
   final void Function(BuildContext context)? onReset;
   final bool disableAnimations;
 
   const ResultScreen({
     super.key,
     this.onPlayAgain,
+    this.onChangeSettings,
     this.onReset,
     this.disableAnimations = false,
   });
@@ -297,9 +299,19 @@ class _ResultScreenState extends State<ResultScreen>
             }
           },
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         NeonButton(
-          label: '最初から',
+          label: '設定を変えて遊ぶ',
+          onPressed: () {
+            provider.goToPlayerSetup();
+            if (widget.onChangeSettings != null) {
+              widget.onChangeSettings!(context);
+            }
+          },
+        ),
+        const SizedBox(height: 10),
+        _buildTextButton(
+          label: 'トップに戻る',
           onPressed: () {
             provider.resetGame();
             if (widget.onReset != null) {
@@ -308,6 +320,27 @@ class _ResultScreenState extends State<ResultScreen>
           },
         ),
       ],
+    );
+  }
+
+  Widget _buildTextButton({
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.mutedGray,
+            decoration: TextDecoration.underline,
+            decorationColor: AppColors.mutedGray.withValues(alpha: 0.5),
+          ),
+        ),
+      ),
     );
   }
 

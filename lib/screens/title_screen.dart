@@ -8,11 +8,13 @@ import '../widgets/neon_button.dart';
 
 class TitleScreen extends StatefulWidget {
   final void Function(BuildContext context)? onStartPressed;
+  final void Function(BuildContext context)? onHowToPlayPressed;
   final bool disableAnimations;
 
   const TitleScreen({
     super.key,
     this.onStartPressed,
+    this.onHowToPlayPressed,
     this.disableAnimations = false,
   });
 
@@ -458,16 +460,73 @@ class _TitleScreenState extends State<TitleScreen>
         final delay = 0.7;
         final rawProgress = ((_textController!.value - delay) / (1 - delay)).clamp(0.0, 1.0);
         final progress = Curves.easeOutCubic.transform(rawProgress);
-        final opacity = (progress * 0.5).clamp(0.0, 1.0);
-        return Opacity(opacity: opacity, child: child);
+        return Opacity(opacity: progress, child: child);
       },
       child: Column(
         children: [
+          GestureDetector(
+            onTap: () {
+              if (widget.onHowToPlayPressed != null) {
+                widget.onHowToPlayPressed!(context);
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
+              decoration: BoxDecoration(
+                color: AppColors.electricPurple.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(
+                  color: AppColors.electricPurple.withValues(alpha: 0.8),
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.electricPurple.withValues(alpha: 0.3),
+                    blurRadius: 16,
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.help_outline,
+                    size: 20,
+                    color: AppColors.electricPurple,
+                    shadows: [
+                      Shadow(
+                        color: AppColors.electricPurple.withValues(alpha: 0.8),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'How To Play',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.warmWhite,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w500,
+                      shadows: [
+                        Shadow(
+                          color: AppColors.electricPurple.withValues(alpha: 0.6),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
           Text(
             '— Adults Only —',
             style: TextStyle(
               fontSize: 10,
-              color: AppColors.mutedGray,
+              color: AppColors.mutedGray.withValues(alpha: 0.6),
               letterSpacing: 4,
               fontWeight: FontWeight.w300,
             ),

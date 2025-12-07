@@ -193,4 +193,22 @@ class GameProvider extends ChangeNotifier {
     _initializePlayers(2);
     notifyListeners();
   }
+
+  /// プレイヤー設定画面に戻る（既存の設定を保持）
+  void goToPlayerSetup() {
+    // Reset players' assigned numbers but keep names
+    final resetPlayers = _state.players
+        .map((p) => Player(id: p.id, name: p.name))
+        .toList();
+
+    _state = _state.copyWith(
+      players: resetPlayers,
+      currentTheme: null,
+      distributedNumbers: [],
+      currentPlayerIndex: 0,
+      reorderedPlayers: [],
+      phase: GamePhase.playerSetup,
+    );
+    notifyListeners();
+  }
 }
