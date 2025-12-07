@@ -6,6 +6,7 @@ import '../constants/app_animations.dart';
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
+import '../widgets/ad_banner.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
@@ -82,6 +83,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
+      bottomNavigationBar: const AdBanner(),
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {

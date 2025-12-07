@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/ad_banner.dart';
 import '../widgets/neon_button.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -70,6 +71,7 @@ class _TitleScreenState extends State<TitleScreen>
 
     return Scaffold(
       backgroundColor: const Color(0xFF050507),
+      bottomNavigationBar: const AdBanner(),
       body: Stack(
         children: [
           // Animated gradient orbs background

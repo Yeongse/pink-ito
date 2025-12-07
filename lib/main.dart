@@ -1,5 +1,7 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/app_theme.dart';
@@ -13,10 +15,44 @@ import 'screens/expression_time_screen.dart';
 import 'screens/reorder_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/how_to_play_screen.dart';
+import 'services/interstitial_ad_manager.dart';
 import 'widgets/fade_slide_route.dart';
 
-void main() {
+void main() async {
+  // Flutterバインディングの初期化
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // AdMob SDKの初期化
+  await MobileAds.instance.initialize();
+
+  // iOS ATTダイアログの表示
+  await _requestTrackingAuthorization();
+
+  // インタースティシャル広告をプリロード
+  InterstitialAdManager().loadAd();
+
   runApp(const PinkItoApp());
+}
+
+/// iOS ATT（App Tracking Transparency）の許可リクエスト
+Future<void> _requestTrackingAuthorization() async {
+  try {
+    // 現在のトラッキング許可状態を取得
+    final TrackingStatus status =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
+
+    // まだ決定されていない場合のみダイアログを表示
+    if (status == TrackingStatus.notDetermined) {
+      // UIが完全に読み込まれるまで少し待つ
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      // ATTダイアログを表示
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  } catch (e) {
+    // エラーが発生しても広告は表示可能（パーソナライズされない可能性あり）
+    debugPrint('ATT request failed: $e');
+  }
 }
 
 class PinkItoApp extends StatelessWidget {

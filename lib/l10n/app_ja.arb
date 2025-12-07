@@ -70,6 +70,9 @@
   "expressionTime": "表現タイム",
   "expressionDescription": "お題に沿って自分の数字を表現しよう！\n数字そのものは言わないでね",
   "goToReorder": "並び替えへ",
+  "adPreparingTitle": "広告を準備中...",
+  "adPreparingMessage": "広告が流れた後に並び替えてもらうから、\n話す準備をしていてね！",
+  "discussNow": "今のうちに話し合おう！",
 
   "reorder": "並び替え",
   "reorderDescription": "数字が小さい順に並べよう",

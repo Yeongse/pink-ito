@@ -334,6 +334,24 @@ abstract class AppLocalizations {
   /// **'並び替えへ'**
   String get goToReorder;
 
+  /// No description provided for @adPreparingTitle.
+  ///
+  /// In ja, this message translates to:
+  /// **'広告を準備中...'**
+  String get adPreparingTitle;
+
+  /// No description provided for @adPreparingMessage.
+  ///
+  /// In ja, this message translates to:
+  /// **'広告が流れた後に並び替えてもらうから、\n話す準備をしていてね！'**
+  String get adPreparingMessage;
+
+  /// No description provided for @discussNow.
+  ///
+  /// In ja, this message translates to:
+  /// **'今のうちに話し合おう！'**
+  String get discussNow;
+
   /// No description provided for @reorder.
   ///
   /// In ja, this message translates to:

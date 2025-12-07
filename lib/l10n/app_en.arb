@@ -45,6 +45,9 @@
   "expressionTime": "Expression Time",
   "expressionDescription": "Express your number based on the theme!\nDon't say the actual number",
   "goToReorder": "Go to Arrange",
+  "adPreparingTitle": "Preparing ad...",
+  "adPreparingMessage": "You'll arrange after the ad plays,\nso get ready to discuss!",
+  "discussNow": "Discuss while you wait!",
 
   "reorder": "Arrange",
   "reorderDescription": "Arrange from smallest to largest",

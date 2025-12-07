@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
+import '../widgets/ad_banner.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_text.dart';
 
@@ -18,6 +19,7 @@ class HowToPlayScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.darkBg,
+      bottomNavigationBar: const AdBanner(),
       body: SafeArea(
         child: AnimatedBackground(
           disableAnimations: disableAnimations,

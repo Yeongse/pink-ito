@@ -136,6 +136,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get goToReorder => '並び替えへ';
 
   @override
+  String get adPreparingTitle => '広告を準備中...';
+
+  @override
+  String get adPreparingMessage => '広告が流れた後に並び替えてもらうから、\n話す準備をしていてね！';
+
+  @override
+  String get discussNow => '今のうちに話し合おう！';
+
+  @override
   String get reorder => '並び替え';
 
   @override

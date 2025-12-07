@@ -136,6 +136,15 @@ class AppLocalizationsKo extends AppLocalizations {
   String get goToReorder => '정렬하러 가기';
 
   @override
+  String get adPreparingTitle => '광고 준비 중...';
+
+  @override
+  String get adPreparingMessage => '광고가 끝나면 정렬을 시작합니다.\n그동안 이야기를 나눠보세요!';
+
+  @override
+  String get discussNow => '지금 이야기하세요!';
+
+  @override
   String get reorder => '정렬하기';
 
   @override

@@ -45,6 +45,9 @@
   "expressionTime": "표현 타임",
   "expressionDescription": "주제에 맞춰 자신의 숫자를 표현하세요!\n숫자 자체는 말하지 마세요",
   "goToReorder": "정렬하러 가기",
+  "adPreparingTitle": "광고 준비 중...",
+  "adPreparingMessage": "광고가 끝나면 정렬을 시작합니다.\n그동안 이야기를 나눠보세요!",
+  "discussNow": "지금 이야기하세요!",
 
   "reorder": "정렬하기",
   "reorderDescription": "숫자가 작은 순서대로 정렬하세요",

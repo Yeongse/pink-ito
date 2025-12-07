@@ -51,5 +51,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- ========== AdMob設定 ========== -->
+	<!-- AdMob アプリID -->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-6257323478670896~5418127997</string>
+	<!-- ATT（App Tracking Transparency）説明文 -->
+	<key>NSUserTrackingUsageDescription</key>
+	<string>より関連性の高い広告を表示するために、デバイス識別子を使用します。</string>
+	<!-- SKAdNetwork設定（iOS 14以降の広告計測用） -->
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
 </dict>
 </plist>

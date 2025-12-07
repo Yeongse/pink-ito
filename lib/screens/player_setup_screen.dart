@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
+import '../widgets/ad_banner.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/confirm_dialog.dart';
 import '../widgets/neon_button.dart';
@@ -67,6 +68,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
+      bottomNavigationBar: const AdBanner(),
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {

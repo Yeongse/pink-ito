@@ -138,6 +138,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goToReorder => 'Go to Arrange';
 
   @override
+  String get adPreparingTitle => 'Preparing ad...';
+
+  @override
+  String get adPreparingMessage =>
+      'You\'ll arrange after the ad plays,\nso get ready to discuss!';
+
+  @override
+  String get discussNow => 'Discuss while you wait!';
+
+  @override
   String get reorder => 'Arrange';
 
   @override

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
+import '../services/interstitial_ad_manager.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
@@ -39,6 +41,8 @@ class _ResultScreenState extends State<ResultScreen>
   int _currentRevealIndex = 0;
   bool _allRevealed = false;
   bool _showResult = false;
+  Timer? _interstitialAdTimer;
+  bool _adShown = false;
 
   @override
   void initState() {
@@ -89,14 +93,34 @@ class _ResultScreenState extends State<ResultScreen>
             if (_isSuccess && !widget.disableAnimations) {
               _confettiController.repeat();
             }
+            // Start 10 second timer for interstitial ad
+            _startInterstitialAdTimer();
           }
         });
       }
     });
   }
 
+  /// インタースティシャル広告の10秒タイマーを開始
+  void _startInterstitialAdTimer() {
+    if (_adShown) return;
+    _interstitialAdTimer?.cancel();
+    _interstitialAdTimer = Timer(const Duration(seconds: 10), () {
+      _showInterstitialAd();
+    });
+  }
+
+  /// インタースティシャル広告を表示
+  Future<void> _showInterstitialAd() async {
+    if (_adShown) return;
+    _adShown = true;
+    _interstitialAdTimer?.cancel();
+    await InterstitialAdManager().showAd();
+  }
+
   @override
   void dispose() {
+    _interstitialAdTimer?.cancel();
     _confettiController.dispose();
     super.dispose();
   }
@@ -294,7 +318,10 @@ class _ResultScreenState extends State<ResultScreen>
       children: [
         NeonButton(
           label: l10n.playAgain,
-          onPressed: () {
+          onPressed: () async {
+            // Show interstitial ad before navigating
+            await _showInterstitialAd();
+            if (!mounted) return;
             provider.playAgain();
             if (widget.onPlayAgain != null) {
               widget.onPlayAgain!(context);
@@ -304,7 +331,10 @@ class _ResultScreenState extends State<ResultScreen>
         const SizedBox(height: 10),
         NeonButton(
           label: l10n.changeSettings,
-          onPressed: () {
+          onPressed: () async {
+            // Show interstitial ad before navigating
+            await _showInterstitialAd();
+            if (!mounted) return;
             provider.goToPlayerSetup();
             if (widget.onChangeSettings != null) {
               widget.onChangeSettings!(context);
@@ -314,7 +344,10 @@ class _ResultScreenState extends State<ResultScreen>
         const SizedBox(height: 10),
         _buildTextButton(
           label: l10n.backToTop,
-          onPressed: () {
+          onPressed: () async {
+            // Show interstitial ad before navigating
+            await _showInterstitialAd();
+            if (!mounted) return;
             provider.resetGame();
             if (widget.onReset != null) {
               widget.onReset!(context);
@@ -327,10 +360,10 @@ class _ResultScreenState extends State<ResultScreen>
 
   Widget _buildTextButton({
     required String label,
-    required VoidCallback onPressed,
+    required Future<void> Function() onPressed,
   }) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => onPressed(),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
         child: Text(
