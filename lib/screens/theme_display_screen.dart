@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../constants/app_animations.dart';
 import '../constants/app_colors.dart';
 import '../providers/game_provider.dart';
+import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
 
@@ -74,40 +75,43 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 2),
-                    // Label
-                    Text(
-                      '今回のお題',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.mutedGray,
-                        letterSpacing: 2,
+            return AnimatedBackground(
+              disableAnimations: widget.disableAnimations,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(flex: 2),
+                      // Label
+                      Text(
+                        '今回のお題',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.mutedGray,
+                          letterSpacing: 2,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Theme title with neon frame
-                    _buildThemeFrame(provider),
-                    const Spacer(flex: 2),
-                    // Distribute numbers button
-                    NeonButton(
-                      label: '数字を配る',
-                      pulse: !widget.disableAnimations && _animationComplete,
-                      onPressed: () {
-                        provider.generateNumbers();
-                        provider.goToNumberDistribution();
-                        if (widget.onDistributeNumbers != null) {
-                          widget.onDistributeNumbers!(context);
-                        }
-                      },
-                    ),
-                    const Spacer(flex: 1),
-                  ],
+                      const SizedBox(height: 24),
+                      // Theme title with neon frame
+                      _buildThemeFrame(provider),
+                      const Spacer(flex: 2),
+                      // Distribute numbers button
+                      NeonButton(
+                        label: '数字を配る',
+                        pulse: !widget.disableAnimations && _animationComplete,
+                        onPressed: () {
+                          provider.generateNumbers();
+                          provider.goToNumberDistribution();
+                          if (widget.onDistributeNumbers != null) {
+                            widget.onDistributeNumbers!(context);
+                          }
+                        },
+                      ),
+                      const Spacer(flex: 1),
+                    ],
+                  ),
                 ),
               ),
             );

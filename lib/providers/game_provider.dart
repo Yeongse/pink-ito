@@ -120,6 +120,13 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void goToExpressionTime() {
+    _state = _state.copyWith(
+      phase: GamePhase.expressionTime,
+    );
+    notifyListeners();
+  }
+
   void goToReorder() {
     _state = _state.copyWith(
       phase: GamePhase.reorder,

@@ -66,6 +66,8 @@ class PinkItoApp extends StatelessWidget {
         return FadeSlideRoute(
           page: NumberDistributionScreen(
             onAllPlayersComplete: (context) {
+              // Set phase before navigation to prevent flash of first player's screen
+              context.read<GameProvider>().goToExpressionTime();
               Navigator.of(context).pushNamed('/expression-time');
             },
           ),

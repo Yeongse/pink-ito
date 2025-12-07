@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
 import '../providers/game_provider.dart';
+import '../widgets/animated_background.dart';
+import '../widgets/confirm_dialog.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
 
@@ -76,38 +78,49 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
               });
             }
 
-            return Column(
-              children: [
-                const SizedBox(height: 24),
-                // Title
-                const NeonText(
-                  text: 'プレイヤー設定',
-                  fontSize: 32,
-                  animate: false,
-                ),
-                const SizedBox(height: 32),
-                // Player count slider
-                _buildPlayerCountSlider(provider),
-                const SizedBox(height: 24),
-                // Player name fields
-                Expanded(
-                  child: _buildPlayerNameList(provider),
-                ),
-                // Start game button
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: NeonButton(
-                    label: 'ゲーム開始',
-                    enabled: provider.allPlayersReady,
-                    onPressed: () {
-                      provider.startGame();
-                      if (widget.onGameStart != null) {
-                        widget.onGameStart!(context);
-                      }
-                    },
+            return AnimatedBackground(
+              child: Column(
+                children: [
+                  const SizedBox(height: 24),
+                  // Title
+                  const NeonText(
+                    text: 'プレイヤー設定',
+                    fontSize: 32,
+                    animate: false,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 32),
+                  // Player count slider
+                  _buildPlayerCountSlider(provider),
+                  const SizedBox(height: 24),
+                  // Player name fields
+                  Expanded(
+                    child: _buildPlayerNameList(provider),
+                  ),
+                  // Start game button
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: NeonButton(
+                      label: 'ゲーム開始',
+                      enabled: provider.allPlayersReady,
+                      onPressed: () async {
+                        final confirmed = await ConfirmDialog.show(
+                          context: context,
+                          title: 'ゲーム開始',
+                          message: 'この設定でゲームを開始しますか？',
+                          confirmLabel: '開始',
+                        );
+
+                        if (confirmed == true && mounted) {
+                          provider.startGame();
+                          if (widget.onGameStart != null) {
+                            widget.onGameStart!(context);
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),

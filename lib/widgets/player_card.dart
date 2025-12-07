@@ -10,6 +10,7 @@ class PlayerCard extends StatelessWidget {
   final int? revealedNumber;
   final bool? isCorrect;
   final bool isDragging;
+  final bool showDragHandle;
 
   const PlayerCard({
     super.key,
@@ -18,6 +19,7 @@ class PlayerCard extends StatelessWidget {
     this.revealedNumber,
     this.isCorrect,
     this.isDragging = false,
+    this.showDragHandle = false,
   });
 
   @override
@@ -59,6 +61,14 @@ class PlayerCard extends StatelessWidget {
           if (isCorrect != null) ...[
             const SizedBox(width: 8),
             _buildResultIcon(),
+          ],
+          if (showDragHandle) ...[
+            const SizedBox(width: 8),
+            Icon(
+              Icons.drag_handle,
+              color: AppColors.mutedGray,
+              size: 24,
+            ),
           ],
         ],
       ),

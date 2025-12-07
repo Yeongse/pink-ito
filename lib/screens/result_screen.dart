@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
-import '../constants/app_animations.dart';
 import '../providers/game_provider.dart';
+import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
 import '../widgets/player_card.dart';
@@ -33,7 +33,9 @@ class _ResultScreenState extends State<ResultScreen>
   late bool _isSuccess;
   late AnimationController _confettiController;
   late List<_ConfettiParticle> _confettiParticles;
-  int _revealedCount = 0;
+  int _currentRevealIndex = 0;
+  bool _allRevealed = false;
+  bool _showResult = false;
 
   @override
   void initState() {
@@ -45,11 +47,12 @@ class _ResultScreenState extends State<ResultScreen>
     if (widget.disableAnimations) {
       _revealedCards =
           List.generate(provider.reorderedPlayers.length, (_) => true);
-      _revealedCount = provider.reorderedPlayers.length;
+      _currentRevealIndex = provider.reorderedPlayers.length;
+      _allRevealed = true;
+      _showResult = true;
     } else {
       _revealedCards =
           List.generate(provider.reorderedPlayers.length, (_) => false);
-      _startRevealAnimation(provider.reorderedPlayers.length);
     }
 
     _initConfetti();
@@ -61,36 +64,32 @@ class _ResultScreenState extends State<ResultScreen>
       vsync: this,
       duration: const Duration(seconds: 3),
     );
-
-    if (_isSuccess && !widget.disableAnimations) {
-      // Start confetti after all cards are revealed
-      final delay = Duration(
-        milliseconds:
-            AppAnimations.cardReveal.inMilliseconds * _revealedCards.length +
-                500,
-      );
-      Future.delayed(delay, () {
-        if (mounted) {
-          _confettiController.repeat();
-        }
-      });
-    }
   }
 
-  void _startRevealAnimation(int playerCount) {
-    for (int i = 0; i < playerCount; i++) {
-      Future.delayed(
-        Duration(milliseconds: AppAnimations.cardReveal.inMilliseconds * i),
-        () {
+  void _revealNextCard() {
+    if (_currentRevealIndex >= _revealedCards.length) return;
+
+    setState(() {
+      _revealedCards[_currentRevealIndex] = true;
+      _currentRevealIndex++;
+
+      // Check if all cards are revealed
+      if (_currentRevealIndex >= _revealedCards.length) {
+        _allRevealed = true;
+        // Show result after a short delay
+        Future.delayed(const Duration(milliseconds: 500), () {
           if (mounted) {
             setState(() {
-              _revealedCards[i] = true;
-              _revealedCount = i + 1;
+              _showResult = true;
             });
+            // Start confetti if success
+            if (_isSuccess && !widget.disableAnimations) {
+              _confettiController.repeat();
+            }
           }
-        },
-      );
-    }
+        });
+      }
+    });
   }
 
   @override
@@ -106,63 +105,107 @@ class _ResultScreenState extends State<ResultScreen>
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
-            return Stack(
-              children: [
-                // Confetti animation
-                if (_isSuccess && !widget.disableAnimations)
-                  AnimatedBuilder(
-                    animation: _confettiController,
-                    builder: (context, child) {
-                      return CustomPaint(
-                        size: Size.infinite,
-                        painter: _ConfettiPainter(
-                          particles: _confettiParticles,
-                          progress: _confettiController.value,
-                        ),
-                      );
-                    },
-                  ),
-                // Main content
-                Column(
+            return AnimatedBackground(
+              disableAnimations: widget.disableAnimations,
+              child: Stack(
+                children: [
+                  // Confetti animation
+                  if (_isSuccess && _showResult && !widget.disableAnimations)
+                    AnimatedBuilder(
+                      animation: _confettiController,
+                      builder: (context, child) {
+                        return CustomPaint(
+                          size: Size.infinite,
+                          painter: _ConfettiPainter(
+                            particles: _confettiParticles,
+                            progress: _confettiController.value,
+                          ),
+                        );
+                      },
+                    ),
+                  // Main content
+                  Column(
                   children: [
-                    const SizedBox(height: 32),
-                    // Result title
+                    const SizedBox(height: 16),
+                    // Theme reminder at top
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.darkSurface,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppColors.neonPink,
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.neonPinkGlow,
+                            blurRadius: 12,
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'お題',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.mutedGray,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Container(
+                            width: 1,
+                            height: 20,
+                            color: AppColors.neonPink.withValues(alpha: 0.5),
+                          ),
+                          const SizedBox(width: 12),
+                          Flexible(
+                            child: Text(
+                              provider.currentTheme?.title ?? '',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.neonPink,
+                                shadows: [
+                                  Shadow(
+                                    color: AppColors.neonPinkGlow,
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Result title (shows after all cards revealed)
                     _buildResultTitle(),
                     const SizedBox(height: 24),
                     // Player cards
                     Expanded(
                       child: _buildPlayerList(provider),
                     ),
-                    // Action buttons
+                    // Reveal button or action buttons
                     Padding(
                       padding: const EdgeInsets.all(24),
-                      child: Column(
-                        children: [
-                          NeonButton(
-                            label: 'もう一度遊ぶ',
-                            onPressed: () {
-                              provider.playAgain();
-                              if (widget.onPlayAgain != null) {
-                                widget.onPlayAgain!(context);
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          NeonButton(
-                            label: '最初から',
-                            onPressed: () {
-                              provider.resetGame();
-                              if (widget.onReset != null) {
-                                widget.onReset!(context);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                      child: _allRevealed
+                          ? _buildActionButtons(provider)
+                          : _buildRevealButton(),
                     ),
                   ],
                 ),
               ],
+              ),
             );
           },
         ),
@@ -171,6 +214,28 @@ class _ResultScreenState extends State<ResultScreen>
   }
 
   Widget _buildResultTitle() {
+    // Show "答え合わせ" until all cards are revealed
+    if (!_showResult) {
+      return Column(
+        children: [
+          const NeonText(
+            text: '答え合わせ',
+            fontSize: 36,
+            animate: false,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'タップしてめくろう',
+            style: TextStyle(
+              fontSize: 18,
+              color: AppColors.mutedGray,
+            ),
+          ),
+        ],
+      );
+    }
+
+    // Show result after all cards revealed
     if (_isSuccess) {
       return Column(
         children: [
@@ -211,6 +276,41 @@ class _ResultScreenState extends State<ResultScreen>
     }
   }
 
+  Widget _buildRevealButton() {
+    final remaining = _revealedCards.length - _currentRevealIndex;
+    return NeonButton(
+      label: '次をめくる ($remaining枚)',
+      onPressed: _revealNextCard,
+      pulse: true,
+    );
+  }
+
+  Widget _buildActionButtons(GameProvider provider) {
+    return Column(
+      children: [
+        NeonButton(
+          label: 'もう一度遊ぶ',
+          onPressed: () {
+            provider.playAgain();
+            if (widget.onPlayAgain != null) {
+              widget.onPlayAgain!(context);
+            }
+          },
+        ),
+        const SizedBox(height: 12),
+        NeonButton(
+          label: '最初から',
+          onPressed: () {
+            provider.resetGame();
+            if (widget.onReset != null) {
+              widget.onReset!(context);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildPlayerList(GameProvider provider) {
     final players = provider.reorderedPlayers;
 
@@ -221,25 +321,112 @@ class _ResultScreenState extends State<ResultScreen>
         final player = players[index];
         final isRevealed = _revealedCards[index];
         final isCorrect = _playerResults[index];
+        final isNextToReveal = index == _currentRevealIndex;
 
-        return AnimatedOpacity(
-          opacity: isRevealed ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 300),
-          child: AnimatedSlide(
-            offset: isRevealed ? Offset.zero : const Offset(0.1, 0),
-            duration: const Duration(milliseconds: 300),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: PlayerCard(
-                player: player,
-                rank: index + 1,
-                revealedNumber: isRevealed ? player.assignedNumber : null,
-                isCorrect: isRevealed ? isCorrect : null,
-              ),
-            ),
+        return GestureDetector(
+          onTap: isNextToReveal ? _revealNextCard : null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: isRevealed
+                ? AnimatedOpacity(
+                    opacity: 1.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: AnimatedSlide(
+                      offset: Offset.zero,
+                      duration: const Duration(milliseconds: 300),
+                      child: PlayerCard(
+                        player: player,
+                        rank: index + 1,
+                        revealedNumber: player.assignedNumber,
+                        isCorrect: _showResult ? isCorrect : null,
+                      ),
+                    ),
+                  )
+                : _buildHiddenCard(player.name, index + 1, isNextToReveal),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildHiddenCard(String playerName, int rank, bool isNextToReveal) {
+    return Container(
+      constraints: const BoxConstraints(minHeight: 64),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.darkElevated,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isNextToReveal
+              ? AppColors.neonPink
+              : AppColors.neonPink.withValues(alpha: 0.3),
+          width: isNextToReveal ? 2 : 1,
+        ),
+        boxShadow: isNextToReveal
+            ? [
+                BoxShadow(
+                  color: AppColors.neonPink.withValues(alpha: 0.4),
+                  blurRadius: 12,
+                  spreadRadius: 0,
+                ),
+              ]
+            : null,
+      ),
+      child: Row(
+        children: [
+          // Rank badge
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: AppColors.neonPink.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: AppColors.neonPink,
+                width: 1,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                '$rank',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.neonPink,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Player name
+          Expanded(
+            child: Text(
+              playerName,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: AppColors.warmWhite,
+              ),
+            ),
+          ),
+          // Hidden number indicator
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: AppColors.darkSurface,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              isNextToReveal ? 'タップ!' : '???',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: isNextToReveal ? AppColors.neonPink : AppColors.mutedGray,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
