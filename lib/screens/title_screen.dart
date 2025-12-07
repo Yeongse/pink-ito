@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/neon_button.dart';
 
 class TitleScreen extends StatefulWidget {
@@ -350,15 +351,21 @@ class _TitleScreenState extends State<TitleScreen>
             ),
             const SizedBox(height: 24),
             // Tagline text
-            Text(
-              '秘密の数字を、言葉で繋げ。',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
-                color: AppColors.warmWhite.withValues(alpha: 0.7),
-                letterSpacing: 4,
-                height: 1.8,
-              ),
+            Builder(
+              builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return Text(
+                  l10n.tagline,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.warmWhite.withValues(alpha: 0.7),
+                    letterSpacing: 4,
+                    height: 1.8,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              },
             ),
             const SizedBox(height: 24),
             // Bottom decorative line
@@ -435,17 +442,22 @@ class _TitleScreenState extends State<TitleScreen>
           child: Transform.scale(scale: 0.8 + 0.2 * scaleProgress, child: child),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
-        child: NeonButton(
-          label: 'PLAY',
-          pulse: !widget.disableAnimations,
-          onPressed: () {
-            if (widget.onStartPressed != null) {
-              widget.onStartPressed!(context);
-            }
-          },
-        ),
+      child: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 48),
+            child: NeonButton(
+              label: l10n.play,
+              pulse: !widget.disableAnimations,
+              onPressed: () {
+                if (widget.onStartPressed != null) {
+                  widget.onStartPressed!(context);
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -462,76 +474,81 @@ class _TitleScreenState extends State<TitleScreen>
         final progress = Curves.easeOutCubic.transform(rawProgress);
         return Opacity(opacity: progress, child: child);
       },
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              if (widget.onHowToPlayPressed != null) {
-                widget.onHowToPlayPressed!(context);
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
-              decoration: BoxDecoration(
-                color: AppColors.electricPurple.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(28),
-                border: Border.all(
-                  color: AppColors.electricPurple.withValues(alpha: 0.8),
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.electricPurple.withValues(alpha: 0.3),
-                    blurRadius: 16,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.help_outline,
-                    size: 20,
-                    color: AppColors.electricPurple,
-                    shadows: [
-                      Shadow(
-                        color: AppColors.electricPurple.withValues(alpha: 0.8),
-                        blurRadius: 8,
+      child: Builder(
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (widget.onHowToPlayPressed != null) {
+                    widget.onHowToPlayPressed!(context);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 28),
+                  decoration: BoxDecoration(
+                    color: AppColors.electricPurple.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(28),
+                    border: Border.all(
+                      color: AppColors.electricPurple.withValues(alpha: 0.8),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.electricPurple.withValues(alpha: 0.3),
+                        blurRadius: 16,
+                        spreadRadius: 0,
                       ),
                     ],
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'How To Play',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.warmWhite,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.w500,
-                      shadows: [
-                        Shadow(
-                          color: AppColors.electricPurple.withValues(alpha: 0.6),
-                          blurRadius: 8,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.help_outline,
+                        size: 20,
+                        color: AppColors.electricPurple,
+                        shadows: [
+                          Shadow(
+                            color: AppColors.electricPurple.withValues(alpha: 0.8),
+                            blurRadius: 8,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        l10n.howToPlay,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.warmWhite,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w500,
+                          shadows: [
+                            Shadow(
+                              color: AppColors.electricPurple.withValues(alpha: 0.6),
+                              blurRadius: 8,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            '— Adults Only —',
-            style: TextStyle(
-              fontSize: 10,
-              color: AppColors.mutedGray.withValues(alpha: 0.6),
-              letterSpacing: 4,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
-        ],
+              const SizedBox(height: 16),
+              Text(
+                l10n.adultsOnly,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: AppColors.mutedGray.withValues(alpha: 0.6),
+                  letterSpacing: 4,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

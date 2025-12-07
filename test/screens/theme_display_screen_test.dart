@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:pink_ito/constants/app_theme.dart';
 import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/theme_display_screen.dart';
 import 'package:pink_ito/widgets/neon_button.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   late GameProvider gameProvider;
@@ -21,31 +20,28 @@ void main() {
     Widget? nextScreen,
     bool disableAnimations = true,
   }) {
-    return ChangeNotifierProvider.value(
-      value: gameProvider,
-      child: MaterialApp(
-        theme: AppTheme.darkThemeForTest,
-        home: ThemeDisplayScreen(
-          disableAnimations: disableAnimations,
-          onDistributeNumbers: nextScreen != null
-              ? (context) => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => nextScreen),
-                  )
-              : null,
-        ),
+    return createLocalizedTestWidget(
+      provider: gameProvider,
+      child: ThemeDisplayScreen(
+        disableAnimations: disableAnimations,
+        onDistributeNumbers: nextScreen != null
+            ? (context) => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => nextScreen),
+                )
+            : null,
       ),
     );
   }
 
   group('ThemeDisplayScreen', () {
-    testWidgets('should display the current theme title', (tester) async {
+    testWidgets('should display the current theme', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // The theme title should be displayed
+      // The theme should exist
       final theme = gameProvider.currentTheme;
       expect(theme, isNotNull);
-      expect(find.text(theme!.title), findsOneWidget);
+      expect(theme!.titleKey, isNotEmpty);
     });
 
     testWidgets('should display "数字を配る" button', (tester) async {

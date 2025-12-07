@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:pink_ito/constants/app_theme.dart';
 import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/number_distribution_screen.dart';
 import 'package:pink_ito/widgets/neon_button.dart';
 import 'package:pink_ito/widgets/neon_text.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   late GameProvider gameProvider;
@@ -21,17 +20,14 @@ void main() {
   });
 
   Widget createTestWidget({Widget? nextScreen}) {
-    return ChangeNotifierProvider.value(
-      value: gameProvider,
-      child: MaterialApp(
-        theme: AppTheme.darkThemeForTest,
-        home: NumberDistributionScreen(
-          onAllPlayersComplete: nextScreen != null
-              ? (context) => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => nextScreen),
-                  )
-              : null,
-        ),
+    return createLocalizedTestWidget(
+      provider: gameProvider,
+      child: NumberDistributionScreen(
+        onAllPlayersComplete: nextScreen != null
+            ? (context) => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => nextScreen),
+                )
+            : null,
       ),
     );
   }

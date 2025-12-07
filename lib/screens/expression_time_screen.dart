@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
@@ -29,6 +30,7 @@ class _ExpressionTimeScreenState extends State<ExpressionTimeScreen> {
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
+            final l10n = AppLocalizations.of(context)!;
             return AnimatedBackground(
               disableAnimations: widget.disableAnimations,
               child: Center(
@@ -51,7 +53,7 @@ class _ExpressionTimeScreenState extends State<ExpressionTimeScreen> {
                             ),
                           ),
                           child: Text(
-                            'お題: ${provider.currentTheme?.title ?? ''}',
+                            '${l10n.theme}: ${provider.currentTheme?.getLocalizedTitle(l10n) ?? ''}',
                             style: TextStyle(
                               fontSize: 14,
                               color: AppColors.mutedGray,
@@ -60,14 +62,14 @@ class _ExpressionTimeScreenState extends State<ExpressionTimeScreen> {
                         ),
                         const Spacer(flex: 2),
                         // Main message
-                        const NeonText(
-                          text: '楽しく話し合ってね',
+                        NeonText(
+                          text: l10n.expressionTime,
                           fontSize: 32,
                           animate: false,
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          '自分の数字を言わずに\nお題について話し合おう',
+                          l10n.expressionDescription,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -78,7 +80,7 @@ class _ExpressionTimeScreenState extends State<ExpressionTimeScreen> {
                         const Spacer(flex: 2),
                         // Go to reorder button
                         NeonButton(
-                          label: '並び替えへ',
+                          label: l10n.goToReorder,
                           pulse: !widget.disableAnimations,
                           onPressed: () {
                             provider.goToReorder();

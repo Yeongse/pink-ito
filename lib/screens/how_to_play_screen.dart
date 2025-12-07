@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_text.dart';
 
@@ -14,6 +15,7 @@ class HowToPlayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       body: SafeArea(
@@ -46,8 +48,8 @@ class HowToPlayScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    const NeonText(
-                      text: 'How To Play',
+                    NeonText(
+                      text: l10n.howToPlayTitle,
                       fontSize: 24,
                       animate: false,
                     ),
@@ -62,44 +64,44 @@ class HowToPlayScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   children: [
                     const SizedBox(height: 8),
-                    _buildIntroSection(),
+                    _buildIntroSection(l10n),
                     const SizedBox(height: 24),
                     _buildStepSection(
                       stepNumber: 1,
-                      title: 'お題を確認',
-                      description: 'ランダムに選ばれたお題が表示されます。\n例：「怖いもの」「嬉しいこと」など',
+                      title: l10n.step1Title,
+                      description: l10n.step1Description,
                       icon: Icons.topic,
                     ),
                     const SizedBox(height: 16),
                     _buildStepSection(
                       stepNumber: 2,
-                      title: '数字を受け取る',
-                      description: '各プレイヤーに1〜100の数字がランダムに配られます。\n自分の数字は他の人には見せないでね！',
+                      title: l10n.step2Title,
+                      description: l10n.step2Description,
                       icon: Icons.pin,
                     ),
                     const SizedBox(height: 16),
                     _buildStepSection(
                       stepNumber: 3,
-                      title: '表現タイム',
-                      description: 'お題に沿って、自分の数字を言葉や身振りで表現しよう！\n数字そのものは言っちゃダメ！\n\n例：お題「怖いもの」で数字が80なら\n「死」「戦争」など大きめのものを表現',
+                      title: l10n.step3Title,
+                      description: l10n.step3Description,
                       icon: Icons.chat_bubble_outline,
                     ),
                     const SizedBox(height: 16),
                     _buildStepSection(
                       stepNumber: 4,
-                      title: '並び替え',
-                      description: '全員の表現を聞いたら、数字が小さい順に並べよう！\n相談してもOK！',
+                      title: l10n.step4Title,
+                      description: l10n.step4Description,
                       icon: Icons.sort,
                     ),
                     const SizedBox(height: 16),
                     _buildStepSection(
                       stepNumber: 5,
-                      title: '答え合わせ',
-                      description: '並べた順番が正しいかチェック！\n全員正解でクリア！',
+                      title: l10n.step5Title,
+                      description: l10n.step5Description,
                       icon: Icons.check_circle_outline,
                     ),
                     const SizedBox(height: 24),
-                    _buildTipsSection(),
+                    _buildTipsSection(l10n),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -111,7 +113,7 @@ class HowToPlayScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIntroSection() {
+  Widget _buildIntroSection(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -132,7 +134,7 @@ class HowToPlayScreen extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Itoとは？',
+            l10n.whatIsIto,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -141,7 +143,7 @@ class HowToPlayScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '価値観のズレを楽しむ協力パーティーゲーム！\n\nお題に対して自分の数字を「言葉」で表現し、\nみんなで小さい順に並べることを目指します。',
+            l10n.itoDescription,
             style: TextStyle(
               fontSize: 15,
               color: AppColors.warmWhite,
@@ -237,7 +239,7 @@ class HowToPlayScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTipsSection() {
+  Widget _buildTipsSection(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -260,7 +262,7 @@ class HowToPlayScreen extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'コツ',
+                l10n.tips,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -270,11 +272,11 @@ class HowToPlayScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildTipItem('数字の大小は相対的！みんなの価値観を想像しよう'),
+          _buildTipItem(l10n.tip1),
           const SizedBox(height: 10),
-          _buildTipItem('具体的な例を出すと伝わりやすい'),
+          _buildTipItem(l10n.tip2),
           const SizedBox(height: 10),
-          _buildTipItem('曖昧な表現も面白い！解釈の違いを楽しもう'),
+          _buildTipItem(l10n.tip3),
         ],
       ),
     );

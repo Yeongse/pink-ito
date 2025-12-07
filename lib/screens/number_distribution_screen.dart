@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/confirm_dialog.dart';
@@ -58,18 +59,18 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
     });
   }
 
-  Future<void> _goToNextPlayer(GameProvider provider) async {
+  Future<void> _goToNextPlayer(GameProvider provider, AppLocalizations l10n) async {
     // Check if this is the last player before advancing
     final isLastPlayer =
         provider.currentPlayerIndex == provider.players.length - 1;
 
     final confirmed = await ConfirmDialog.show(
       context: context,
-      title: isLastPlayer ? '議論へ' : '次の人へ',
+      title: isLastPlayer ? l10n.toDiscussion : l10n.nextPerson,
       message: isLastPlayer
-          ? '全員に数字を配りました。\n議論に進んでよいですか？'
-          : '次の人にスマホを渡しますか？',
-      confirmLabel: isLastPlayer ? '議論へ進む' : '渡す',
+          ? l10n.allNumbersDistributed
+          : l10n.passToNext,
+      confirmLabel: isLastPlayer ? l10n.goToDiscussion : l10n.pass,
     );
 
     if (confirmed != true || !mounted) return;
@@ -100,6 +101,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
+            final l10n = AppLocalizations.of(context)!;
             final currentPlayer = provider.players[provider.currentPlayerIndex];
 
             return AnimatedBackground(
@@ -108,8 +110,8 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                   padding: const EdgeInsets.all(24),
                   child: _isNumberRevealed
                       ? _buildNumberReveal(provider, currentPlayer.name,
-                          currentPlayer.assignedNumber ?? 0)
-                      : _buildHandoff(currentPlayer.name),
+                          currentPlayer.assignedNumber ?? 0, l10n)
+                      : _buildHandoff(currentPlayer.name, l10n),
                 ),
               ),
             );
@@ -119,7 +121,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
     );
   }
 
-  Widget _buildHandoff(String playerName) {
+  Widget _buildHandoff(String playerName, AppLocalizations l10n) {
     if (_handoffController == null) {
       return const SizedBox.shrink();
     }
@@ -149,7 +151,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
               const Spacer(flex: 2),
               // Instruction text
               Text(
-                'スマホを渡してください',
+                l10n.passPhone,
                 style: TextStyle(
                   fontSize: 16,
                   color: AppColors.mutedGray,
@@ -189,7 +191,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'さんの番です',
+                      l10n.playerTurn,
                       style: TextStyle(
                         fontSize: 18,
                         color: AppColors.warmWhite.withValues(alpha: 0.8),
@@ -220,7 +222,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      'タップして数字を見る',
+                      l10n.tapToSeeNumber,
                       style: TextStyle(
                         fontSize: 18,
                         color: AppColors.warmWhite,
@@ -238,7 +240,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
   }
 
   Widget _buildNumberReveal(
-      GameProvider provider, String playerName, int number) {
+      GameProvider provider, String playerName, int number, AppLocalizations l10n) {
     if (_revealController == null) {
       return const SizedBox.shrink();
     }
@@ -282,7 +284,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                     ),
                   ),
                   child: Text(
-                    '$playerName の数字',
+                    l10n.playerNumber(playerName),
                     style: TextStyle(
                       fontSize: 18,
                       color: AppColors.warmWhite,
@@ -325,7 +327,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                   child: Column(
                     children: [
                       Text(
-                        'この数字を覚えてね',
+                        l10n.rememberNumber,
                         style: TextStyle(
                           fontSize: 16,
                           color: AppColors.warmWhite,
@@ -334,7 +336,7 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '他の人には見せないでね！',
+                        l10n.dontShowOthers,
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.mutedGray,
@@ -352,8 +354,8 @@ class _NumberDistributionScreenState extends State<NumberDistributionScreen>
               child: Transform.translate(
                 offset: Offset(20 * (1 - buttonProgress), 0),
                 child: NeonButton(
-                  label: '覚えたら次へ',
-                  onPressed: () => _goToNextPlayer(provider),
+                  label: l10n.rememberedNext,
+                  onPressed: () => _goToNextPlayer(provider, l10n),
                 ),
               ),
             ),

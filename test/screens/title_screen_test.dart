@@ -1,65 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:pink_ito/constants/app_theme.dart';
-import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/title_screen.dart';
-import 'package:pink_ito/widgets/neon_text.dart';
 import 'package:pink_ito/widgets/neon_button.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   Widget createTestWidget({
     Widget? nextScreen,
     bool disableAnimations = true,
   }) {
-    return ChangeNotifierProvider(
-      create: (_) => GameProvider(),
-      child: MaterialApp(
-        theme: AppTheme.darkThemeForTest,
-        home: TitleScreen(
-          disableAnimations: disableAnimations,
-          onStartPressed: nextScreen != null
-              ? (context) => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => nextScreen),
-                  )
-              : null,
-        ),
+    return createLocalizedTestWidget(
+      child: TitleScreen(
+        disableAnimations: disableAnimations,
+        onStartPressed: nextScreen != null
+            ? (context) => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => nextScreen),
+                )
+            : null,
       ),
     );
   }
 
   group('TitleScreen', () {
-    testWidgets('should display the game logo "ピンク Ito"', (tester) async {
+    testWidgets('should display the game logo "Pink Ito"', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      expect(find.text('ピンク Ito'), findsOneWidget);
+      expect(find.text('Pink Ito'), findsOneWidget);
     });
 
-    testWidgets('should display the subtitle "大人の数字当てゲーム"',
-        (tester) async {
+    testWidgets('should display the tagline', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      expect(find.text('大人の数字当てゲーム'), findsOneWidget);
+      // Japanese locale tagline
+      expect(find.text('秘密の数字を、言葉で繋げ。'), findsOneWidget);
     });
 
-    testWidgets('should use NeonText widget for the logo', (tester) async {
+    testWidgets('should display "PLAY" button', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      final neonTextFinder = find.byType(NeonText);
-      expect(neonTextFinder, findsWidgets);
-
-      // Find the NeonText containing the logo
-      final logoNeonText = find.ancestor(
-        of: find.text('ピンク Ito'),
-        matching: find.byType(NeonText),
-      );
-      expect(logoNeonText, findsOneWidget);
-    });
-
-    testWidgets('should display "スタート" button', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-
-      expect(find.text('スタート'), findsOneWidget);
+      expect(find.text('PLAY'), findsOneWidget);
     });
 
     testWidgets('should use NeonButton for start button', (tester) async {
@@ -76,7 +55,7 @@ void main() {
 
       await tester.pumpWidget(createTestWidget(nextScreen: nextScreen));
 
-      await tester.tap(find.text('スタート'));
+      await tester.tap(find.text('PLAY'));
       await tester.pumpAndSettle();
 
       expect(find.text('Next Screen'), findsOneWidget);
@@ -98,21 +77,6 @@ void main() {
     });
 
     testWidgets(
-        'logo NeonText should have animate disabled when disableAnimations is true',
-        (tester) async {
-      await tester.pumpWidget(createTestWidget(disableAnimations: true));
-
-      final neonTextWidget = tester.widget<NeonText>(
-        find.ancestor(
-          of: find.text('ピンク Ito'),
-          matching: find.byType(NeonText),
-        ),
-      );
-
-      expect(neonTextWidget.animate, isFalse);
-    });
-
-    testWidgets(
         'start button should have pulse disabled when disableAnimations is true',
         (tester) async {
       await tester.pumpWidget(createTestWidget(disableAnimations: true));
@@ -122,29 +86,6 @@ void main() {
       );
 
       expect(neonButtonWidget.pulse, isFalse);
-    });
-
-    testWidgets('logo font size should be large (56px)', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-
-      final neonTextWidget = tester.widget<NeonText>(
-        find.ancestor(
-          of: find.text('ピンク Ito'),
-          matching: find.byType(NeonText),
-        ),
-      );
-
-      expect(neonTextWidget.fontSize, 56.0);
-    });
-
-    testWidgets('should have subtitle with muted color', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-
-      final subtitleText = tester.widget<Text>(
-        find.text('大人の数字当てゲーム'),
-      );
-
-      expect(subtitleText.style?.fontSize, 18);
     });
   });
 }

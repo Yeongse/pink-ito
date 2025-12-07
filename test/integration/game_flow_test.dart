@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:pink_ito/constants/app_theme.dart';
+import 'package:pink_ito/l10n/app_localizations.dart';
 import 'package:pink_ito/models/player.dart';
 import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/title_screen.dart';
@@ -11,6 +13,28 @@ import 'package:pink_ito/screens/number_distribution_screen.dart';
 import 'package:pink_ito/screens/expression_time_screen.dart';
 import 'package:pink_ito/screens/reorder_screen.dart';
 import 'package:pink_ito/screens/result_screen.dart';
+
+Widget _wrapWithLocalization(GameProvider provider, Widget child) {
+  return ChangeNotifierProvider.value(
+    value: provider,
+    child: MaterialApp(
+      theme: AppTheme.darkThemeForTest,
+      locale: const Locale('ja'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ja'),
+        Locale('en'),
+        Locale('ko'),
+      ],
+      home: child,
+    ),
+  );
+}
 
 void main() {
   late GameProvider gameProvider;
@@ -24,30 +48,24 @@ void main() {
         (tester) async {
       // Step 1: Title Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: TitleScreen(
-              disableAnimations: true,
-              onStartPressed: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          TitleScreen(
+            disableAnimations: true,
+            onStartPressed: (context) {},
           ),
         ),
       );
 
-      expect(find.text('ピンク Ito'), findsOneWidget);
-      expect(find.text('スタート'), findsOneWidget);
+      expect(find.text('Pink Ito'), findsOneWidget);
+      expect(find.text('PLAY'), findsOneWidget);
 
       // Step 2: Player Setup Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: PlayerSetupScreen(
-              onGameStart: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          PlayerSetupScreen(
+            onGameStart: (context) {},
           ),
         ),
       );
@@ -66,20 +84,17 @@ void main() {
 
       // Step 3: Theme Display Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: ThemeDisplayScreen(
-              disableAnimations: true,
-              onDistributeNumbers: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          ThemeDisplayScreen(
+            disableAnimations: true,
+            onDistributeNumbers: (context) {},
           ),
         ),
       );
 
       expect(gameProvider.currentTheme, isNotNull);
-      expect(find.text(gameProvider.currentTheme!.title), findsOneWidget);
+      expect(gameProvider.currentTheme!.titleKey, isNotEmpty);
 
       // Simulate number distribution
       gameProvider.generateNumbers();
@@ -87,13 +102,10 @@ void main() {
 
       // Step 4: Number Distribution Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: NumberDistributionScreen(
-              onAllPlayersComplete: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          NumberDistributionScreen(
+            onAllPlayersComplete: (context) {},
           ),
         ),
       );
@@ -108,14 +120,11 @@ void main() {
 
       // Step 5: Expression Time Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: ExpressionTimeScreen(
-              disableAnimations: true,
-              onGoToReorder: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          ExpressionTimeScreen(
+            disableAnimations: true,
+            onGoToReorder: (context) {},
           ),
         ),
       );
@@ -127,13 +136,10 @@ void main() {
 
       // Step 6: Reorder Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: ReorderScreen(
-              onSubmitReorder: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          ReorderScreen(
+            onSubmitReorder: (context) {},
           ),
         ),
       );
@@ -148,15 +154,12 @@ void main() {
 
       // Step 7: Result Screen
       await tester.pumpWidget(
-        ChangeNotifierProvider.value(
-          value: gameProvider,
-          child: MaterialApp(
-            theme: AppTheme.darkThemeForTest,
-            home: ResultScreen(
-              disableAnimations: true,
-              onPlayAgain: (context) {},
-              onReset: (context) {},
-            ),
+        _wrapWithLocalization(
+          gameProvider,
+          ResultScreen(
+            disableAnimations: true,
+            onPlayAgain: (context) {},
+            onReset: (context) {},
           ),
         ),
       );

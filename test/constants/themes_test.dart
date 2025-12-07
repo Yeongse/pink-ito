@@ -13,9 +13,9 @@ void main() {
       expect(ids.length, themes.length);
     });
 
-    test('all themes should have non-empty titles', () {
+    test('all themes should have non-empty titleKeys', () {
       for (final theme in themes) {
-        expect(theme.title, isNotEmpty);
+        expect(theme.titleKey, isNotEmpty);
       }
     });
 

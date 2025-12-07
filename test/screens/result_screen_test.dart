@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:pink_ito/constants/app_theme.dart';
 import 'package:pink_ito/models/player.dart';
 import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/result_screen.dart';
 import 'package:pink_ito/widgets/neon_button.dart';
 import 'package:pink_ito/widgets/player_card.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   late GameProvider gameProvider;
@@ -16,23 +15,20 @@ void main() {
     Widget? resetScreen,
     bool disableAnimations = true,
   }) {
-    return ChangeNotifierProvider.value(
-      value: gameProvider,
-      child: MaterialApp(
-        theme: AppTheme.darkThemeForTest,
-        home: ResultScreen(
-          disableAnimations: disableAnimations,
-          onPlayAgain: playAgainScreen != null
-              ? (context) => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => playAgainScreen),
-                  )
-              : null,
-          onReset: resetScreen != null
-              ? (context) => Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => resetScreen),
-                  )
-              : null,
-        ),
+    return createLocalizedTestWidget(
+      provider: gameProvider,
+      child: ResultScreen(
+        disableAnimations: disableAnimations,
+        onPlayAgain: playAgainScreen != null
+            ? (context) => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => playAgainScreen),
+                )
+            : null,
+        onReset: resetScreen != null
+            ? (context) => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => resetScreen),
+                )
+            : null,
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../models/player.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
@@ -93,12 +94,12 @@ class _ReorderScreenState extends State<ReorderScreen> {
     return _slots.every((slot) => slot != null);
   }
 
-  Future<void> _submitReorder(GameProvider provider) async {
+  Future<void> _submitReorder(GameProvider provider, AppLocalizations l10n) async {
     if (!_allSlotsFilled()) {
       await ConfirmDialog.show(
         context: context,
-        title: 'まだ空きがあります',
-        message: '全ての順位にカードを配置してください。',
+        title: l10n.stillEmpty,
+        message: l10n.placeAllRanks,
         confirmLabel: 'OK',
         cancelLabel: '',
       );
@@ -107,9 +108,9 @@ class _ReorderScreenState extends State<ReorderScreen> {
 
     final confirmed = await ConfirmDialog.show(
       context: context,
-      title: '答え合わせ',
-      message: 'この順番で答え合わせをしますか？',
-      confirmLabel: '答え合わせ',
+      title: l10n.checkAnswer,
+      message: l10n.checkAnswerConfirm,
+      confirmLabel: l10n.checkAnswer,
     );
 
     if (confirmed == true && mounted) {
@@ -127,25 +128,26 @@ class _ReorderScreenState extends State<ReorderScreen> {
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
+            final l10n = AppLocalizations.of(context)!;
             return AnimatedBackground(
               disableAnimations: widget.disableAnimations,
               child: Column(
                 children: [
                   const SizedBox(height: 16),
                   // Theme reminder at top
-                  _buildThemeHeader(provider),
+                  _buildThemeHeader(provider, l10n),
                   const SizedBox(height: 12),
                   // Title
-                  const NeonText(
-                    text: '小さい順に並べてね',
+                  NeonText(
+                    text: l10n.smallestFirst,
                     fontSize: 24,
                     animate: false,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     _selectedPlayer != null
-                        ? '空きスロットをタップして配置'
-                        : 'カードを選んでスロットに配置',
+                        ? l10n.tapToPlace
+                        : l10n.selectCardToPlace,
                     style: TextStyle(
                       fontSize: 13,
                       color: _selectedPlayer != null
@@ -155,17 +157,17 @@ class _ReorderScreenState extends State<ReorderScreen> {
                   ),
                   const SizedBox(height: 12),
                   // 並び順スロットセクション
-                  _buildSlotSection(),
+                  _buildSlotSection(l10n),
                   const SizedBox(height: 8),
                   // 手元のカードセクション
-                  _buildHandSection(),
+                  _buildHandSection(l10n),
                   // Submit button
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: NeonButton(
-                      label: '答え合わせ',
+                      label: l10n.checkAnswer,
                       enabled: _allSlotsFilled(),
-                      onPressed: () => _submitReorder(provider),
+                      onPressed: () => _submitReorder(provider, l10n),
                     ),
                   ),
                 ],
@@ -177,7 +179,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
-  Widget _buildThemeHeader(GameProvider provider) {
+  Widget _buildThemeHeader(GameProvider provider, AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       padding: const EdgeInsets.symmetric(
@@ -203,7 +205,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'お題',
+            l10n.theme,
             style: TextStyle(
               fontSize: 14,
               color: AppColors.mutedGray,
@@ -219,7 +221,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
           const SizedBox(width: 12),
           Flexible(
             child: Text(
-              provider.currentTheme?.title ?? '',
+              provider.currentTheme?.getLocalizedTitle(l10n) ?? '',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -239,7 +241,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
-  Widget _buildSlotSection() {
+  Widget _buildSlotSection(AppLocalizations l10n) {
     final filledCount = _slots.where((s) => s != null).length;
 
     return Expanded(
@@ -274,7 +276,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '並び順',
+                    l10n.arrangementOrder,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -302,8 +304,8 @@ class _ReorderScreenState extends State<ReorderScreen> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: player != null
-                        ? _buildFilledSlot(player, index)
-                        : _buildEmptySlot(index),
+                        ? _buildFilledSlot(player, index, l10n)
+                        : _buildEmptySlot(index, l10n),
                   );
                 },
               ),
@@ -314,7 +316,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
-  Widget _buildEmptySlot(int index) {
+  Widget _buildEmptySlot(int index, AppLocalizations l10n) {
     final isSelectable = _selectedPlayer != null;
 
     return GestureDetector(
@@ -363,7 +365,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
             // Empty slot indicator
             Expanded(
               child: Text(
-                isSelectable ? 'タップして配置' : '—',
+                isSelectable ? l10n.tapToPlaceHere : '—',
                 style: TextStyle(
                   fontSize: 14,
                   color: isSelectable
@@ -385,7 +387,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
-  Widget _buildFilledSlot(Player player, int index) {
+  Widget _buildFilledSlot(Player player, int index, AppLocalizations l10n) {
     return LongPressDraggable<int>(
       data: index,
       feedback: Material(
@@ -427,7 +429,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
             ),
             const SizedBox(width: 12),
             Text(
-              '移動中...',
+              l10n.moving,
               style: TextStyle(
                 fontSize: 14,
                 color: AppColors.mutedGray.withValues(alpha: 0.5),
@@ -540,7 +542,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
     );
   }
 
-  Widget _buildHandSection() {
+  Widget _buildHandSection(AppLocalizations l10n) {
     return Container(
       height: 140,
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -572,7 +574,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  '手元のカード',
+                  l10n.yourHand,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -581,7 +583,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  '${_handPlayers.length}人',
+                  l10n.handCardsCount(_handPlayers.length),
                   style: TextStyle(
                     fontSize: 13,
                     color: AppColors.mutedGray,
@@ -604,7 +606,7 @@ class _ReorderScreenState extends State<ReorderScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '全員を配置しました',
+                          l10n.allPlaced,
                           style: TextStyle(
                             fontSize: 14,
                             color: AppColors.successGreen,

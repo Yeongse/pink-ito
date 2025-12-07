@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../constants/app_animations.dart';
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
@@ -26,26 +27,35 @@ class ThemeDisplayScreen extends StatefulWidget {
 class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
   String _displayedText = '';
   bool _animationComplete = false;
+  bool _animationStarted = false;
 
   @override
   void initState() {
     super.initState();
     if (widget.disableAnimations) {
       _animationComplete = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final provider = context.read<GameProvider>();
-        setState(() {
-          _displayedText = provider.currentTheme?.title ?? '';
-        });
-      });
-    } else {
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_animationStarted && !widget.disableAnimations) {
+      _animationStarted = true;
       _startTypewriterAnimation();
+    } else if (widget.disableAnimations && _displayedText.isEmpty) {
+      final provider = context.read<GameProvider>();
+      final l10n = AppLocalizations.of(context)!;
+      setState(() {
+        _displayedText = provider.currentTheme?.getLocalizedTitle(l10n) ?? '';
+      });
     }
   }
 
   void _startTypewriterAnimation() {
     final provider = context.read<GameProvider>();
-    final title = provider.currentTheme?.title ?? '';
+    final l10n = AppLocalizations.of(context)!;
+    final title = provider.currentTheme?.getLocalizedTitle(l10n) ?? '';
 
     int charIndex = 0;
     Future.doWhile(() async {
@@ -75,6 +85,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
+            final l10n = AppLocalizations.of(context)!;
             return AnimatedBackground(
               disableAnimations: widget.disableAnimations,
               child: Center(
@@ -86,7 +97,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
                       const Spacer(flex: 2),
                       // Label
                       Text(
-                        '今回のお題',
+                        l10n.currentTheme,
                         style: TextStyle(
                           fontSize: 18,
                           color: AppColors.mutedGray,
@@ -95,11 +106,11 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
                       ),
                       const SizedBox(height: 24),
                       // Theme title with neon frame
-                      _buildThemeFrame(provider),
+                      _buildThemeFrame(provider, l10n),
                       const Spacer(flex: 2),
                       // Distribute numbers button
                       NeonButton(
-                        label: '数字を配る',
+                        label: l10n.distributeNumbers,
                         pulse: !widget.disableAnimations && _animationComplete,
                         onPressed: () {
                           provider.generateNumbers();
@@ -121,7 +132,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
     );
   }
 
-  Widget _buildThemeFrame(GameProvider provider) {
+  Widget _buildThemeFrame(GameProvider provider, AppLocalizations l10n) {
     Widget content = Container(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
       decoration: BoxDecoration(
@@ -141,7 +152,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
       ),
       child: NeonText(
         text: widget.disableAnimations
-            ? (provider.currentTheme?.title ?? '')
+            ? (provider.currentTheme?.getLocalizedTitle(l10n) ?? '')
             : _displayedText,
         fontSize: 36,
         animate: false,

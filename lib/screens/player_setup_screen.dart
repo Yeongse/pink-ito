@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/confirm_dialog.dart';
@@ -78,36 +79,37 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
               });
             }
 
+            final l10n = AppLocalizations.of(context)!;
             return AnimatedBackground(
               child: Column(
                 children: [
                   const SizedBox(height: 24),
                   // Title
-                  const NeonText(
-                    text: 'プレイヤー設定',
+                  NeonText(
+                    text: l10n.playerSetup,
                     fontSize: 32,
                     animate: false,
                   ),
                   const SizedBox(height: 32),
                   // Player count slider
-                  _buildPlayerCountSlider(provider),
+                  _buildPlayerCountSlider(provider, l10n),
                   const SizedBox(height: 24),
                   // Player name fields
                   Expanded(
-                    child: _buildPlayerNameList(provider),
+                    child: _buildPlayerNameList(provider, l10n),
                   ),
                   // Start game button
                   Padding(
                     padding: const EdgeInsets.all(24),
                     child: NeonButton(
-                      label: 'ゲーム開始',
+                      label: l10n.startGame,
                       enabled: provider.allPlayersReady,
                       onPressed: () async {
                         final confirmed = await ConfirmDialog.show(
                           context: context,
-                          title: 'ゲーム開始',
-                          message: 'この設定でゲームを開始しますか？',
-                          confirmLabel: '開始',
+                          title: l10n.startGameConfirmTitle,
+                          message: l10n.startGameConfirmMessage,
+                          confirmLabel: l10n.start,
                         );
 
                         if (confirmed == true && mounted) {
@@ -128,13 +130,13 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     );
   }
 
-  Widget _buildPlayerCountSlider(GameProvider provider) {
+  Widget _buildPlayerCountSlider(GameProvider provider, AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
           Text(
-            '${provider.playerCount}人',
+            l10n.playerCountFormat(provider.playerCount),
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -162,9 +164,9 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('2人', style: TextStyle(color: AppColors.mutedGray)),
-              Text('10人', style: TextStyle(color: AppColors.mutedGray)),
+            children: [
+              Text(l10n.playerCountFormat(2), style: const TextStyle(color: AppColors.mutedGray)),
+              Text(l10n.playerCountFormat(10), style: const TextStyle(color: AppColors.mutedGray)),
             ],
           ),
         ],
@@ -172,7 +174,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     );
   }
 
-  Widget _buildPlayerNameList(GameProvider provider) {
+  Widget _buildPlayerNameList(GameProvider provider, AppLocalizations l10n) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemCount: provider.playerCount,
@@ -197,7 +199,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
               SizedBox(
                 width: 100,
                 child: Text(
-                  'プレイヤー ${index + 1}',
+                  l10n.playerLabel(index + 1),
                   style: const TextStyle(
                     color: AppColors.warmWhite,
                     fontSize: 14,
@@ -210,7 +212,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                   focusNode: _focusNodes[index],
                   style: const TextStyle(color: AppColors.warmWhite),
                   decoration: InputDecoration(
-                    hintText: '名前を入力',
+                    hintText: l10n.playerNameHint,
                     hintStyle: TextStyle(color: AppColors.mutedGray),
                     filled: true,
                     fillColor: AppColors.darkSurface,

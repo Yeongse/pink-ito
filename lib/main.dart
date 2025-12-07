@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/app_theme.dart';
+import 'l10n/app_localizations.dart';
 import 'providers/game_provider.dart';
 import 'screens/title_screen.dart';
 import 'screens/player_setup_screen.dart';
@@ -25,9 +27,20 @@ class PinkItoApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => GameProvider(),
       child: MaterialApp(
-        title: 'ピンク Ito',
+        title: 'Pink Ito',
         theme: AppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('ja'),
+          Locale('en'),
+          Locale('ko'),
+        ],
         initialRoute: '/',
         onGenerateRoute: _generateRoute,
       ),

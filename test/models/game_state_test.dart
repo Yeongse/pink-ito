@@ -47,7 +47,7 @@ void main() {
     });
 
     test('copyWith should preserve unspecified fields', () {
-      final theme = GameTheme(id: '1', title: 'テスト');
+      final theme = GameTheme(id: '1', titleKey: 'theme1');
       final state = GameState(
         players: [Player(id: '1', name: 'Alice')],
         currentTheme: theme,

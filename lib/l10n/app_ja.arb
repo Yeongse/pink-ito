@@ -1,0 +1,177 @@
+{
+  "@@locale": "ja",
+
+  "appTitle": "Pink Ito",
+  "tagline": "秘密の数字を、言葉で繋げ。",
+  "adultsOnly": "— Adults Only —",
+
+  "play": "PLAY",
+  "howToPlay": "How To Play",
+
+  "playerSetup": "プレイヤー設定",
+  "playerCount": "プレイヤー人数",
+  "playerCountFormat": "{count}人",
+  "@playerCountFormat": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "playerLabel": "プレイヤー {number}",
+  "@playerLabel": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "playerNameHint": "名前を入力",
+  "startGame": "ゲーム開始",
+  "startGameConfirmTitle": "ゲーム開始",
+  "startGameConfirmMessage": "この設定でゲームを開始しますか？",
+  "start": "開始",
+  "cancel": "キャンセル",
+
+  "currentTheme": "今回のお題",
+  "distributeNumbers": "数字を配る",
+
+  "numberDistribution": "数字配布",
+  "yourNumber": "あなたの数字",
+  "passingTo": "{name}さんに渡してね",
+  "@passingTo": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "confirmAndPass": "確認したら次へ",
+  "numberIs": "{name}さんの番号は",
+  "@numberIs": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "tapToReveal": "タップして確認",
+  "passPhone": "スマホを渡してください",
+  "playerTurn": "さんの番です",
+  "tapToSeeNumber": "タップして数字を見る",
+  "playerNumber": "{name} の数字",
+  "@playerNumber": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "rememberNumber": "この数字を覚えてね",
+  "dontShowOthers": "他の人には見せないでね！",
+  "rememberedNext": "覚えたら次へ",
+  "toDiscussion": "議論へ",
+  "nextPerson": "次の人へ",
+  "allNumbersDistributed": "全員に数字を配りました。\n議論に進んでよいですか？",
+  "passToNext": "次の人にスマホを渡しますか？",
+  "goToDiscussion": "議論へ進む",
+  "pass": "渡す",
+
+  "expressionTime": "表現タイム",
+  "expressionDescription": "お題に沿って自分の数字を表現しよう！\n数字そのものは言わないでね",
+  "goToReorder": "並び替えへ",
+
+  "reorder": "並び替え",
+  "reorderDescription": "数字が小さい順に並べよう",
+  "yourHand": "手元のカード",
+  "placedCards": "並べた順番（小さい→大きい）",
+  "emptySlot": "空き",
+  "slotNumber": "{number}番目",
+  "@slotNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "submit": "決定",
+  "submitConfirmTitle": "並び替え確定",
+  "submitConfirmMessage": "この順番で決定しますか？",
+  "confirm": "確定",
+  "placeAllCards": "全てのカードを並べてください",
+  "stillEmpty": "まだ空きがあります",
+  "placeAllRanks": "全ての順位にカードを配置してください。",
+  "checkAnswer": "答え合わせ",
+  "checkAnswerConfirm": "この順番で答え合わせをしますか？",
+  "smallestFirst": "小さい順に並べてね",
+  "tapToPlace": "空きスロットをタップして配置",
+  "selectCardToPlace": "カードを選んでスロットに配置",
+  "arrangementOrder": "並び順",
+  "tapToPlaceHere": "タップして配置",
+  "moving": "移動中...",
+  "allPlaced": "全員を配置しました",
+  "handCardsCount": "{count}人",
+  "@handCardsCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "result": "答え合わせ",
+  "tapToFlip": "タップしてめくろう",
+  "flipNext": "次をめくる ({count}枚)",
+  "@flipNext": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "success": "SUCCESS!",
+  "allCorrect": "全員正解!",
+  "failed": "残念...",
+  "checkCorrectOrder": "正しい順番を確認しよう",
+  "playAgain": "もう一度遊ぶ",
+  "changeSettings": "設定を変えて遊ぶ",
+  "backToTop": "トップに戻る",
+  "theme": "お題",
+  "tap": "タップ!",
+  "hidden": "???",
+
+  "howToPlayTitle": "How To Play",
+  "whatIsIto": "Itoとは？",
+  "itoDescription": "価値観のズレを楽しむ協力パーティーゲーム！\n\nお題に対して自分の数字を「言葉」で表現し、\nみんなで小さい順に並べることを目指します。",
+
+  "step1Title": "お題を確認",
+  "step1Description": "ランダムに選ばれたお題が表示されます。\n例：「怖いもの」「嬉しいこと」など",
+  "step2Title": "数字を受け取る",
+  "step2Description": "各プレイヤーに1〜100の数字がランダムに配られます。\n自分の数字は他の人には見せないでね！",
+  "step3Title": "表現タイム",
+  "step3Description": "お題に沿って、自分の数字を言葉や身振りで表現しよう！\n数字そのものは言っちゃダメ！\n\n例：お題「怖いもの」で数字が80なら\n「死」「戦争」など大きめのものを表現",
+  "step4Title": "並び替え",
+  "step4Description": "全員の表現を聞いたら、数字が小さい順に並べよう！\n相談してもOK！",
+  "step5Title": "答え合わせ",
+  "step5Description": "並べた順番が正しいかチェック！\n全員正解でクリア！",
+
+  "tips": "コツ",
+  "tip1": "数字の大小は相対的！みんなの価値観を想像しよう",
+  "tip2": "具体的な例を出すと伝わりやすい",
+  "tip3": "曖昧な表現も面白い！解釈の違いを楽しもう",
+
+  "theme1": "気持ちいいもの",
+  "theme2": "恥ずかしいシチュエーション",
+  "theme3": "興奮すること",
+  "theme4": "大人のおもちゃ",
+  "theme5": "ベッドでの行為",
+  "theme6": "キスしたい場所",
+  "theme7": "夜の営み",
+  "theme8": "セクシーな仕草",
+  "theme9": "禁断の関係",
+  "theme10": "ドキドキする瞬間",
+  "theme11": "誘惑の方法",
+  "theme12": "甘い言葉",
+  "theme13": "秘密の場所",
+  "theme14": "大人の遊び",
+  "theme15": "ムラムラすること",
+  "theme16": "恋人にしてほしいこと",
+  "theme17": "いけない妄想",
+  "theme18": "セクシーな服装",
+  "theme19": "夜のデート",
+  "theme20": "愛の言葉",
+  "theme21": "エッチなシチュエーション",
+  "theme22": "密かな願望",
+  "theme23": "ときめく行動",
+  "theme24": "大人の秘密",
+  "theme25": "イチャイチャすること",
+  "theme26": "燃える展開",
+  "theme27": "ロマンチックな場面",
+  "theme28": "誘惑されるシーン",
+  "theme29": "官能的なもの",
+  "theme30": "二人きりの時間"
+}

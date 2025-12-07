@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
@@ -107,6 +108,7 @@ class _ResultScreenState extends State<ResultScreen>
       body: SafeArea(
         child: Consumer<GameProvider>(
           builder: (context, provider, _) {
+            final l10n = AppLocalizations.of(context)!;
             return AnimatedBackground(
               disableAnimations: widget.disableAnimations,
               child: Stack(
@@ -155,7 +157,7 @@ class _ResultScreenState extends State<ResultScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'お題',
+                            l10n.theme,
                             style: TextStyle(
                               fontSize: 14,
                               color: AppColors.mutedGray,
@@ -171,7 +173,7 @@ class _ResultScreenState extends State<ResultScreen>
                           const SizedBox(width: 12),
                           Flexible(
                             child: Text(
-                              provider.currentTheme?.title ?? '',
+                              provider.currentTheme?.getLocalizedTitle(l10n) ?? '',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -191,18 +193,18 @@ class _ResultScreenState extends State<ResultScreen>
                     ),
                     const SizedBox(height: 16),
                     // Result title (shows after all cards revealed)
-                    _buildResultTitle(),
+                    _buildResultTitle(l10n),
                     const SizedBox(height: 24),
                     // Player cards
                     Expanded(
-                      child: _buildPlayerList(provider),
+                      child: _buildPlayerList(provider, l10n),
                     ),
                     // Reveal button or action buttons
                     Padding(
                       padding: const EdgeInsets.all(24),
                       child: _allRevealed
-                          ? _buildActionButtons(provider)
-                          : _buildRevealButton(),
+                          ? _buildActionButtons(provider, l10n)
+                          : _buildRevealButton(l10n),
                     ),
                   ],
                 ),
@@ -215,19 +217,19 @@ class _ResultScreenState extends State<ResultScreen>
     );
   }
 
-  Widget _buildResultTitle() {
+  Widget _buildResultTitle(AppLocalizations l10n) {
     // Show "答え合わせ" until all cards are revealed
     if (!_showResult) {
       return Column(
         children: [
-          const NeonText(
-            text: '答え合わせ',
+          NeonText(
+            text: l10n.result,
             fontSize: 36,
             animate: false,
           ),
           const SizedBox(height: 8),
           Text(
-            'タップしてめくろう',
+            l10n.tapToFlip,
             style: TextStyle(
               fontSize: 18,
               color: AppColors.mutedGray,
@@ -242,14 +244,14 @@ class _ResultScreenState extends State<ResultScreen>
       return Column(
         children: [
           NeonText(
-            text: 'SUCCESS!',
+            text: l10n.success,
             fontSize: 48,
             glowColor: AppColors.softGold,
             animate: !widget.disableAnimations,
           ),
           const SizedBox(height: 8),
           Text(
-            '全員正解!',
+            l10n.allCorrect,
             style: TextStyle(
               fontSize: 18,
               color: AppColors.successGreen,
@@ -260,14 +262,14 @@ class _ResultScreenState extends State<ResultScreen>
     } else {
       return Column(
         children: [
-          const NeonText(
-            text: '残念...',
+          NeonText(
+            text: l10n.failed,
             fontSize: 48,
             animate: false,
           ),
           const SizedBox(height: 8),
           Text(
-            '正しい順番を確認しよう',
+            l10n.checkCorrectOrder,
             style: TextStyle(
               fontSize: 18,
               color: AppColors.mutedGray,
@@ -278,20 +280,20 @@ class _ResultScreenState extends State<ResultScreen>
     }
   }
 
-  Widget _buildRevealButton() {
+  Widget _buildRevealButton(AppLocalizations l10n) {
     final remaining = _revealedCards.length - _currentRevealIndex;
     return NeonButton(
-      label: '次をめくる ($remaining枚)',
+      label: l10n.flipNext(remaining),
       onPressed: _revealNextCard,
       pulse: true,
     );
   }
 
-  Widget _buildActionButtons(GameProvider provider) {
+  Widget _buildActionButtons(GameProvider provider, AppLocalizations l10n) {
     return Column(
       children: [
         NeonButton(
-          label: 'もう一度遊ぶ',
+          label: l10n.playAgain,
           onPressed: () {
             provider.playAgain();
             if (widget.onPlayAgain != null) {
@@ -301,7 +303,7 @@ class _ResultScreenState extends State<ResultScreen>
         ),
         const SizedBox(height: 10),
         NeonButton(
-          label: '設定を変えて遊ぶ',
+          label: l10n.changeSettings,
           onPressed: () {
             provider.goToPlayerSetup();
             if (widget.onChangeSettings != null) {
@@ -311,7 +313,7 @@ class _ResultScreenState extends State<ResultScreen>
         ),
         const SizedBox(height: 10),
         _buildTextButton(
-          label: 'トップに戻る',
+          label: l10n.backToTop,
           onPressed: () {
             provider.resetGame();
             if (widget.onReset != null) {
@@ -344,7 +346,7 @@ class _ResultScreenState extends State<ResultScreen>
     );
   }
 
-  Widget _buildPlayerList(GameProvider provider) {
+  Widget _buildPlayerList(GameProvider provider, AppLocalizations l10n) {
     final players = provider.reorderedPlayers;
 
     return ListView.builder(
@@ -375,14 +377,14 @@ class _ResultScreenState extends State<ResultScreen>
                       ),
                     ),
                   )
-                : _buildHiddenCard(player.name, index + 1, isNextToReveal),
+                : _buildHiddenCard(player.name, index + 1, isNextToReveal, l10n),
           ),
         );
       },
     );
   }
 
-  Widget _buildHiddenCard(String playerName, int rank, bool isNextToReveal) {
+  Widget _buildHiddenCard(String playerName, int rank, bool isNextToReveal, AppLocalizations l10n) {
     return Container(
       constraints: const BoxConstraints(minHeight: 64),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -450,7 +452,7 @@ class _ResultScreenState extends State<ResultScreen>
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              isNextToReveal ? 'タップ!' : '???',
+              isNextToReveal ? l10n.tap : l10n.hidden,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

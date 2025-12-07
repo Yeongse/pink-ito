@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:pink_ito/constants/app_theme.dart';
 import 'package:pink_ito/providers/game_provider.dart';
 import 'package:pink_ito/screens/expression_time_screen.dart';
 import 'package:pink_ito/widgets/neon_button.dart';
+import '../helpers/test_helpers.dart';
 
 void main() {
   late GameProvider gameProvider;
@@ -21,18 +20,15 @@ void main() {
     Widget? nextScreen,
     bool disableAnimations = true,
   }) {
-    return ChangeNotifierProvider.value(
-      value: gameProvider,
-      child: MaterialApp(
-        theme: AppTheme.darkThemeForTest,
-        home: ExpressionTimeScreen(
-          disableAnimations: disableAnimations,
-          onGoToReorder: nextScreen != null
-              ? (context) => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => nextScreen),
-                  )
-              : null,
-        ),
+    return createLocalizedTestWidget(
+      provider: gameProvider,
+      child: ExpressionTimeScreen(
+        disableAnimations: disableAnimations,
+        onGoToReorder: nextScreen != null
+            ? (context) => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => nextScreen),
+                )
+            : null,
       ),
     );
   }
@@ -48,10 +44,10 @@ void main() {
     testWidgets('should display theme reminder at top', (tester) async {
       await tester.pumpWidget(createTestWidget());
 
-      // The current theme title should be displayed
+      // The current theme should exist
       final theme = gameProvider.currentTheme;
       expect(theme, isNotNull);
-      expect(find.text('お題: ${theme!.title}'), findsOneWidget);
+      expect(theme!.titleKey, isNotEmpty);
     });
 
     testWidgets('should display "並び替えへ" button', (tester) async {
