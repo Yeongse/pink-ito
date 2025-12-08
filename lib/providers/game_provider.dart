@@ -188,7 +188,7 @@ class GameProvider extends ChangeNotifier {
   }
 
   void resetGame() {
-    _themeRepository.resetUsedThemes();
+    // お題履歴は保持し、アプリがタスクキルされるまで同じお題は出ない
     _state = GameState.initial();
     _initializePlayers(2);
     notifyListeners();
