@@ -685,181 +685,181 @@ abstract class AppLocalizations {
   /// No description provided for @theme1.
   ///
   /// In ja, this message translates to:
-  /// **'気持ちいいもの'**
+  /// **'エッチまでの興奮するシチュエーション'**
   String get theme1;
 
   /// No description provided for @theme2.
   ///
   /// In ja, this message translates to:
-  /// **'恥ずかしいシチュエーション'**
+  /// **'好きなエッチ中の体位'**
   String get theme2;
 
   /// No description provided for @theme3.
   ///
   /// In ja, this message translates to:
-  /// **'興奮すること'**
+  /// **'されて嬉しいエッチ中のプレイ'**
   String get theme3;
 
   /// No description provided for @theme4.
   ///
   /// In ja, this message translates to:
-  /// **'大人のおもちゃ'**
+  /// **'本当はやりたくないエッチ中のプレイ'**
   String get theme4;
 
   /// No description provided for @theme5.
   ///
   /// In ja, this message translates to:
-  /// **'ベッドでの行為'**
+  /// **'この状況、100%やれたのに...というシチュエーション'**
   String get theme5;
 
   /// No description provided for @theme6.
   ///
   /// In ja, this message translates to:
-  /// **'キスしたい場所'**
+  /// **'学校/会社で「俺/私のこと好きなのか？」と思う異性の言動'**
   String get theme6;
 
   /// No description provided for @theme7.
   ///
   /// In ja, this message translates to:
-  /// **'夜の営み'**
+  /// **'「絶対ヤリチン/ヤリマンだわ」と思う言動'**
   String get theme7;
 
   /// No description provided for @theme8.
   ///
   /// In ja, this message translates to:
-  /// **'セクシーな仕草'**
+  /// **'ヤリモクだと確信する男の言動'**
   String get theme8;
 
   /// No description provided for @theme9.
   ///
   /// In ja, this message translates to:
-  /// **'禁断の関係'**
+  /// **'エッチ後に「この人とはもう会わないな」と思う言動'**
   String get theme9;
 
   /// No description provided for @theme10.
   ///
   /// In ja, this message translates to:
-  /// **'ドキドキする瞬間'**
+  /// **'マッチングアプリで「業者/ヤリモクだな」と思うプロフィール'**
   String get theme10;
 
   /// No description provided for @theme11.
   ///
   /// In ja, this message translates to:
-  /// **'誘惑の方法'**
+  /// **'エッチするのに最高な場所'**
   String get theme11;
 
   /// No description provided for @theme12.
   ///
   /// In ja, this message translates to:
-  /// **'甘い言葉'**
+  /// **'セクシーだと思う異性の仕草'**
   String get theme12;
 
   /// No description provided for @theme13.
   ///
   /// In ja, this message translates to:
-  /// **'秘密の場所'**
+  /// **'抜けるAVのジャンル'**
   String get theme13;
 
   /// No description provided for @theme14.
   ///
   /// In ja, this message translates to:
-  /// **'大人の遊び'**
+  /// **'エロそうでエロくない言葉'**
   String get theme14;
 
   /// No description provided for @theme15.
   ///
   /// In ja, this message translates to:
-  /// **'ムラムラすること'**
+  /// **'エロい声'**
   String get theme15;
 
   /// No description provided for @theme16.
   ///
   /// In ja, this message translates to:
-  /// **'恋人にしてほしいこと'**
+  /// **'デート中に「この後ホテルないな」と思う言動'**
   String get theme16;
 
   /// No description provided for @theme17.
   ///
   /// In ja, this message translates to:
-  /// **'いけない妄想'**
+  /// **'ムラムラするシチュエーション'**
   String get theme17;
 
   /// No description provided for @theme18.
   ///
   /// In ja, this message translates to:
-  /// **'セクシーな服装'**
+  /// **'理想の告白のシチュエーション'**
   String get theme18;
 
   /// No description provided for @theme19.
   ///
   /// In ja, this message translates to:
-  /// **'夜のデート'**
+  /// **'エッチ中に萎える言葉'**
   String get theme19;
 
   /// No description provided for @theme20.
   ///
   /// In ja, this message translates to:
-  /// **'愛の言葉'**
+  /// **'エッチの誘いを断る上手い言い訳'**
   String get theme20;
 
   /// No description provided for @theme21.
   ///
   /// In ja, this message translates to:
-  /// **'エッチなシチュエーション'**
+  /// **'セフレにしやすそうな女'**
   String get theme21;
 
   /// No description provided for @theme22.
   ///
   /// In ja, this message translates to:
-  /// **'密かな願望'**
+  /// **'チ⚪︎コがデカそうな男'**
   String get theme22;
 
   /// No description provided for @theme23.
   ///
   /// In ja, this message translates to:
-  /// **'ときめく行動'**
+  /// **'フ⚪︎ラが上手そうな女'**
   String get theme23;
 
   /// No description provided for @theme24.
   ///
   /// In ja, this message translates to:
-  /// **'大人の秘密'**
+  /// **'裏でめっちゃヤってそうな有名人'**
   String get theme24;
 
   /// No description provided for @theme25.
   ///
   /// In ja, this message translates to:
-  /// **'イチャイチャすること'**
+  /// **'マッチングアプリで当たりな男/女'**
   String get theme25;
 
   /// No description provided for @theme26.
   ///
   /// In ja, this message translates to:
-  /// **'燃える展開'**
+  /// **'「この人絶対浮気するわ」と思う男/女'**
   String get theme26;
 
   /// No description provided for @theme27.
   ///
   /// In ja, this message translates to:
-  /// **'ロマンチックな場面'**
+  /// **'見かけに反して実は性欲が強そうな女'**
   String get theme27;
 
   /// No description provided for @theme28.
   ///
   /// In ja, this message translates to:
-  /// **'誘惑されるシーン'**
+  /// **'童貞そうなポケモン'**
   String get theme28;
 
   /// No description provided for @theme29.
   ///
   /// In ja, this message translates to:
-  /// **'官能的なもの'**
+  /// **'ヤリチンそうなポケモン'**
   String get theme29;
 
   /// No description provided for @theme30.
   ///
   /// In ja, this message translates to:
-  /// **'二人きりの時間'**
+  /// **'ヤリマンそうなポケモン'**
   String get theme30;
 }
 

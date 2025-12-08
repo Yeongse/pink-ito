@@ -8,6 +8,7 @@ import '../constants/app_colors.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../services/interstitial_ad_manager.dart';
+import '../services/review_service.dart';
 import '../widgets/animated_background.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/neon_text.dart';
@@ -43,6 +44,7 @@ class _ResultScreenState extends State<ResultScreen>
   bool _showResult = false;
   Timer? _interstitialAdTimer;
   bool _adShown = false;
+  final ReviewService _reviewService = ReviewService();
 
   @override
   void initState() {
@@ -84,7 +86,7 @@ class _ResultScreenState extends State<ResultScreen>
       if (_currentRevealIndex >= _revealedCards.length) {
         _allRevealed = true;
         // Show result after a short delay
-        Future.delayed(const Duration(milliseconds: 500), () {
+        Future.delayed(const Duration(milliseconds: 500), () async {
           if (mounted) {
             setState(() {
               _showResult = true;
@@ -93,8 +95,12 @@ class _ResultScreenState extends State<ResultScreen>
             if (_isSuccess && !widget.disableAnimations) {
               _confettiController.repeat();
             }
-            // Start 10 second timer for interstitial ad
-            _startInterstitialAdTimer();
+            // 初回プレイ時のみレビューリクエストを表示（完了を待つ）
+            await _reviewService.requestReviewIfFirstTime();
+            // レビュー完了後に10秒タイマーを開始
+            if (mounted) {
+              _startInterstitialAdTimer();
+            }
           }
         });
       }

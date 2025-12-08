@@ -102,7 +102,7 @@ class _ThemeDisplayScreenState extends State<ThemeDisplayScreen> {
                         l10n.currentTheme,
                         style: TextStyle(
                           fontSize: 18,
-                          color: AppColors.mutedGray,
+                          color: AppColors.warmWhite,
                           letterSpacing: 2,
                         ),
                       ),

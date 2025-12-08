@@ -48,3 +48,7 @@ app.*.map.json
 ios/build/
 *.xcarchive
 *.dSYM
+
+# Flutter localization generated files
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart

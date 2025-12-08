@@ -53,6 +53,12 @@ dependencies:
   # iOS App Tracking Transparency（ATT）対応
   app_tracking_transparency: ^2.0.6+1
 
+  # In-app review
+  in_app_review: ^2.0.10
+
+  # Local storage
+  shared_preferences: ^2.3.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

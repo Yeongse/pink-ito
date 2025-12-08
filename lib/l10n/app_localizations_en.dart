@@ -326,35 +326,36 @@ class AppLocalizationsEn extends AppLocalizations {
       'Vague expressions are fun too! Enjoy different interpretations';
 
   @override
-  String get theme1 => 'Exciting situations leading to sex';
+  String get theme1 => 'Exciting situations before sex';
 
   @override
   String get theme2 => 'Favorite sex positions';
 
   @override
-  String get theme3 => 'Sexual plays you enjoy receiving';
+  String get theme3 => 'Things you like during sex';
 
   @override
-  String get theme4 => 'Sexual plays you secretly don\'t want to do';
+  String get theme4 => 'Things you don\'t actually want to do during sex';
 
   @override
-  String get theme5 => 'Situations where you definitely could\'ve scored';
+  String get theme5 => 'Situations where you could\'ve 100% scored but didn\'t';
 
   @override
-  String get theme6 => 'Signs at school/work that they like you';
+  String get theme6 =>
+      'Actions that make you think \'Do they like me?\' at school/work';
 
   @override
-  String get theme7 => 'Signs someone is a total player';
+  String get theme7 => 'Actions that scream \'total player\'';
 
   @override
-  String get theme8 => 'Signs a guy is only looking for hookups';
+  String get theme8 => 'Things guys do that confirm they just want hookups';
 
   @override
   String get theme9 =>
-      'Post-sex behaviors that make you never want to see them again';
+      'Post-sex actions that make you think \'Never seeing them again\'';
 
   @override
-  String get theme10 => 'Dating app profiles that scream scammer/hookup';
+  String get theme10 => 'Dating app profiles that scream \'fake/hookup only\'';
 
   @override
   String get theme11 => 'Best places to have sex';
@@ -363,7 +364,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme12 => 'Sexy gestures from the opposite sex';
 
   @override
-  String get theme13 => 'Porn genres you can get off to';
+  String get theme13 => 'Adult video genres that work';
 
   @override
   String get theme14 => 'Words that sound dirty but aren\'t';
@@ -372,7 +373,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme15 => 'Sexy voices';
 
   @override
-  String get theme16 => 'Date behaviors that signal no hotel tonight';
+  String get theme16 => 'Date actions that make you think \'No hotel tonight\'';
 
   @override
   String get theme17 => 'Situations that turn you on';
@@ -381,38 +382,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get theme18 => 'Ideal confession scenarios';
 
   @override
-  String get theme19 => 'Words that kill the mood during sex';
+  String get theme19 => 'Mood-killing words during sex';
 
   @override
-  String get theme20 => 'Good excuses to turn down sex';
+  String get theme20 => 'Good excuses to decline sex';
 
   @override
   String get theme21 => 'Women who seem easy to make FWB';
 
   @override
-  String get theme22 => 'Men who look well-endowed';
+  String get theme22 => 'Men who seem well-endowed';
 
   @override
-  String get theme23 => 'Women who look good at oral';
+  String get theme23 => 'Women who seem skilled at oral';
 
   @override
   String get theme24 => 'Celebrities who secretly get around';
 
   @override
-  String get theme25 => 'Jackpot matches on dating apps';
+  String get theme25 => 'Dating app wins';
 
   @override
-  String get theme26 => 'People who will definitely cheat';
+  String get theme26 => 'People who definitely cheat';
 
   @override
-  String get theme27 => 'Women who look innocent but are secretly wild';
+  String get theme27 => 'Women who are secretly very horny';
 
   @override
   String get theme28 => 'Pokémon that seem like virgins';
 
   @override
-  String get theme29 => 'Pokémon that seem like male players';
+  String get theme29 => 'Pokémon that seem like players (male)';
 
   @override
-  String get theme30 => 'Pokémon that seem promiscuous';
+  String get theme30 => 'Pokémon that seem like players (female)';
 }
