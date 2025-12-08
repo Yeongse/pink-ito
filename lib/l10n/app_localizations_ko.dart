@@ -319,92 +319,92 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tip3 => '애매한 표현도 재미있어요! 해석의 차이를 즐기세요';
 
   @override
-  String get theme1 => '기분 좋은 것';
+  String get theme1 => '섹스까지 흥분되는 상황';
 
   @override
-  String get theme2 => '부끄러운 상황';
+  String get theme2 => '좋아하는 섹스 체위';
 
   @override
-  String get theme3 => '흥분되는 것';
+  String get theme3 => '받으면 기쁜 섹스 중 플레이';
 
   @override
-  String get theme4 => '성인용품';
+  String get theme4 => '사실 하고 싶지 않은 섹스 중 플레이';
 
   @override
-  String get theme5 => '침대에서의 행위';
+  String get theme5 => '이 상황, 100% 할 수 있었는데...라는 상황';
 
   @override
-  String get theme6 => '키스하고 싶은 곳';
+  String get theme6 => '학교/회사에서 "나 좋아하나?"라고 생각되는 이성의 행동';
 
   @override
-  String get theme7 => '밤의 활동';
+  String get theme7 => '"완전 바람둥이네"라고 생각되는 행동';
 
   @override
-  String get theme8 => '섹시한 제스처';
+  String get theme8 => '원나잇만 노린다고 확신하는 남자의 행동';
 
   @override
-  String get theme9 => '금지된 관계';
+  String get theme9 => '섹스 후 "이 사람과는 다시 안 만나겠다"라고 생각되는 행동';
 
   @override
-  String get theme10 => '두근거리는 순간';
+  String get theme10 => '소개팅 앱에서 "사기꾼/원나잇충이네"라고 생각되는 프로필';
 
   @override
-  String get theme11 => '유혹하는 방법';
+  String get theme11 => '섹스하기 최고인 장소';
 
   @override
-  String get theme12 => '달콤한 말';
+  String get theme12 => '섹시하다고 생각되는 이성의 행동';
 
   @override
-  String get theme13 => '비밀 장소';
+  String get theme13 => '자위할 수 있는 야동 장르';
 
   @override
-  String get theme14 => '어른의 놀이';
+  String get theme14 => '야해 보이지만 야하지 않은 말';
 
   @override
-  String get theme15 => '설레는 것';
+  String get theme15 => '야한 목소리';
 
   @override
-  String get theme16 => '연인에게 해줬으면 하는 것';
+  String get theme16 => '데이트 중 "오늘 호텔 없겠다"라고 생각되는 행동';
 
   @override
-  String get theme17 => '야한 상상';
+  String get theme17 => '흥분되는 상황';
 
   @override
-  String get theme18 => '섹시한 옷차림';
+  String get theme18 => '이상적인 고백 상황';
 
   @override
-  String get theme19 => '밤 데이트';
+  String get theme19 => '섹스 중 식는 말';
 
   @override
-  String get theme20 => '사랑의 말';
+  String get theme20 => '섹스 제안을 거절하는 좋은 핑계';
 
   @override
-  String get theme21 => '야한 상황';
+  String get theme21 => '섹프로 만들기 쉬워 보이는 여자';
 
   @override
-  String get theme22 => '은밀한 소망';
+  String get theme22 => '거시기가 클 것 같은 남자';
 
   @override
-  String get theme23 => '설레는 행동';
+  String get theme23 => '펠라가 잘할 것 같은 여자';
 
   @override
-  String get theme24 => '어른의 비밀';
+  String get theme24 => '뒤에서 엄청 하고 있을 것 같은 유명인';
 
   @override
-  String get theme25 => '애정 표현';
+  String get theme25 => '소개팅 앱에서 대박인 남자/여자';
 
   @override
-  String get theme26 => '불타오르는 전개';
+  String get theme26 => '"이 사람 절대 바람 피우겠다"라고 생각되는 남자/여자';
 
   @override
-  String get theme27 => '로맨틱한 장면';
+  String get theme27 => '겉보기와 달리 실은 성욕이 강할 것 같은 여자';
 
   @override
-  String get theme28 => '유혹당하는 장면';
+  String get theme28 => '총각 같은 포켓몬';
 
   @override
-  String get theme29 => '관능적인 것';
+  String get theme29 => '바람둥이 같은 포켓몬';
 
   @override
-  String get theme30 => '둘만의 시간';
+  String get theme30 => '걸레 같은 포켓몬';
 }

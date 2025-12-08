@@ -319,92 +319,92 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tip3 => '曖昧な表現も面白い！解釈の違いを楽しもう';
 
   @override
-  String get theme1 => '気持ちいいもの';
+  String get theme1 => 'エッチまでの興奮するシチュエーション';
 
   @override
-  String get theme2 => '恥ずかしいシチュエーション';
+  String get theme2 => '好きなエッチ中の体位';
 
   @override
-  String get theme3 => '興奮すること';
+  String get theme3 => 'されて嬉しいエッチ中のプレイ';
 
   @override
-  String get theme4 => '大人のおもちゃ';
+  String get theme4 => '本当はやりたくないエッチ中のプレイ';
 
   @override
-  String get theme5 => 'ベッドでの行為';
+  String get theme5 => 'この状況、100%やれたのに...というシチュエーション';
 
   @override
-  String get theme6 => 'キスしたい場所';
+  String get theme6 => '学校/会社で「俺/私のこと好きなのか？」と思う異性の言動';
 
   @override
-  String get theme7 => '夜の営み';
+  String get theme7 => '「絶対ヤリチン/ヤリマンだわ」と思う言動';
 
   @override
-  String get theme8 => 'セクシーな仕草';
+  String get theme8 => 'ヤリモクだと確信する男の言動';
 
   @override
-  String get theme9 => '禁断の関係';
+  String get theme9 => 'エッチ後に「この人とはもう会わないな」と思う言動';
 
   @override
-  String get theme10 => 'ドキドキする瞬間';
+  String get theme10 => 'マッチングアプリで「業者/ヤリモクだな」と思うプロフィール';
 
   @override
-  String get theme11 => '誘惑の方法';
+  String get theme11 => 'エッチするのに最高な場所';
 
   @override
-  String get theme12 => '甘い言葉';
+  String get theme12 => 'セクシーだと思う異性の仕草';
 
   @override
-  String get theme13 => '秘密の場所';
+  String get theme13 => '抜けるAVのジャンル';
 
   @override
-  String get theme14 => '大人の遊び';
+  String get theme14 => 'エロそうでエロくない言葉';
 
   @override
-  String get theme15 => 'ムラムラすること';
+  String get theme15 => 'エロい声';
 
   @override
-  String get theme16 => '恋人にしてほしいこと';
+  String get theme16 => 'デート中に「この後ホテルないな」と思う言動';
 
   @override
-  String get theme17 => 'いけない妄想';
+  String get theme17 => 'ムラムラするシチュエーション';
 
   @override
-  String get theme18 => 'セクシーな服装';
+  String get theme18 => '理想の告白のシチュエーション';
 
   @override
-  String get theme19 => '夜のデート';
+  String get theme19 => 'エッチ中に萎える言葉';
 
   @override
-  String get theme20 => '愛の言葉';
+  String get theme20 => 'エッチの誘いを断る上手い言い訳';
 
   @override
-  String get theme21 => 'エッチなシチュエーション';
+  String get theme21 => 'セフレにしやすそうな女';
 
   @override
-  String get theme22 => '密かな願望';
+  String get theme22 => 'チ⚪︎コがデカそうな男';
 
   @override
-  String get theme23 => 'ときめく行動';
+  String get theme23 => 'フ⚪︎ラが上手そうな女';
 
   @override
-  String get theme24 => '大人の秘密';
+  String get theme24 => '裏でめっちゃヤってそうな有名人';
 
   @override
-  String get theme25 => 'イチャイチャすること';
+  String get theme25 => 'マッチングアプリで当たりな男/女';
 
   @override
-  String get theme26 => '燃える展開';
+  String get theme26 => '「この人絶対浮気するわ」と思う男/女';
 
   @override
-  String get theme27 => 'ロマンチックな場面';
+  String get theme27 => '見かけに反して実は性欲が強そうな女';
 
   @override
-  String get theme28 => '誘惑されるシーン';
+  String get theme28 => '童貞そうなポケモン';
 
   @override
-  String get theme29 => '官能的なもの';
+  String get theme29 => 'ヤリチンそうなポケモン';
 
   @override
-  String get theme30 => '二人きりの時間';
+  String get theme30 => 'ヤリマンそうなポケモン';
 }

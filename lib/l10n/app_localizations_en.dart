@@ -326,92 +326,93 @@ class AppLocalizationsEn extends AppLocalizations {
       'Vague expressions are fun too! Enjoy different interpretations';
 
   @override
-  String get theme1 => 'Things that feel good';
+  String get theme1 => 'Exciting situations leading to sex';
 
   @override
-  String get theme2 => 'Embarrassing situations';
+  String get theme2 => 'Favorite sex positions';
 
   @override
-  String get theme3 => 'Exciting things';
+  String get theme3 => 'Sexual plays you enjoy receiving';
 
   @override
-  String get theme4 => 'Adult toys';
+  String get theme4 => 'Sexual plays you secretly don\'t want to do';
 
   @override
-  String get theme5 => 'Bedroom activities';
+  String get theme5 => 'Situations where you definitely could\'ve scored';
 
   @override
-  String get theme6 => 'Places to kiss';
+  String get theme6 => 'Signs at school/work that they like you';
 
   @override
-  String get theme7 => 'Nighttime activities';
+  String get theme7 => 'Signs someone is a total player';
 
   @override
-  String get theme8 => 'Sexy gestures';
+  String get theme8 => 'Signs a guy is only looking for hookups';
 
   @override
-  String get theme9 => 'Forbidden relationships';
+  String get theme9 =>
+      'Post-sex behaviors that make you never want to see them again';
 
   @override
-  String get theme10 => 'Heart-pounding moments';
+  String get theme10 => 'Dating app profiles that scream scammer/hookup';
 
   @override
-  String get theme11 => 'Ways to seduce';
+  String get theme11 => 'Best places to have sex';
 
   @override
-  String get theme12 => 'Sweet words';
+  String get theme12 => 'Sexy gestures from the opposite sex';
 
   @override
-  String get theme13 => 'Secret places';
+  String get theme13 => 'Porn genres you can get off to';
 
   @override
-  String get theme14 => 'Adult games';
+  String get theme14 => 'Words that sound dirty but aren\'t';
 
   @override
-  String get theme15 => 'Things that turn you on';
+  String get theme15 => 'Sexy voices';
 
   @override
-  String get theme16 => 'Things you want your partner to do';
+  String get theme16 => 'Date behaviors that signal no hotel tonight';
 
   @override
-  String get theme17 => 'Naughty fantasies';
+  String get theme17 => 'Situations that turn you on';
 
   @override
-  String get theme18 => 'Sexy outfits';
+  String get theme18 => 'Ideal confession scenarios';
 
   @override
-  String get theme19 => 'Night dates';
+  String get theme19 => 'Words that kill the mood during sex';
 
   @override
-  String get theme20 => 'Words of love';
+  String get theme20 => 'Good excuses to turn down sex';
 
   @override
-  String get theme21 => 'Naughty situations';
+  String get theme21 => 'Women who seem easy to make FWB';
 
   @override
-  String get theme22 => 'Secret desires';
+  String get theme22 => 'Men who look well-endowed';
 
   @override
-  String get theme23 => 'Heart-fluttering actions';
+  String get theme23 => 'Women who look good at oral';
 
   @override
-  String get theme24 => 'Adult secrets';
+  String get theme24 => 'Celebrities who secretly get around';
 
   @override
-  String get theme25 => 'Flirty things';
+  String get theme25 => 'Jackpot matches on dating apps';
 
   @override
-  String get theme26 => 'Passionate developments';
+  String get theme26 => 'People who will definitely cheat';
 
   @override
-  String get theme27 => 'Romantic scenes';
+  String get theme27 => 'Women who look innocent but are secretly wild';
 
   @override
-  String get theme28 => 'Seduction scenes';
+  String get theme28 => 'Pokémon that seem like virgins';
 
   @override
-  String get theme29 => 'Sensual things';
+  String get theme29 => 'Pokémon that seem like male players';
 
   @override
-  String get theme30 => 'Time alone together';
+  String get theme30 => 'Pokémon that seem promiscuous';
 }
