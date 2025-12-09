@@ -102,8 +102,11 @@ Google公式のテスト用IDを使用することで、開発中に無効なト
 | 種類 | iOS | Android |
 |------|-----|---------|
 | **アプリID** | `ca-app-pub-3940256099942544~1458002511` | `ca-app-pub-3940256099942544~3347511713` |
-| **バナー広告ユニットID** | `ca-app-pub-3940256099942544/2934735716` | `ca-app-pub-3940256099942544/6300978111` |
+| **固定バナー広告** | `ca-app-pub-3940256099942544/2934735716` | `ca-app-pub-3940256099942544/6300978111` |
+| **アダプティブバナー広告** ⭐ | `ca-app-pub-3940256099942544/2435281174` | `ca-app-pub-3940256099942544/9214589741` |
 | **インタースティシャル広告** | `ca-app-pub-3940256099942544/4411468910` | `ca-app-pub-3940256099942544/1033173712` |
+
+> ⚠️ **注意**: iPad対応には**アダプティブバナー広告**のテストIDを使用してください。固定バナー用のIDではiPadで広告が表示されない場合があります。
 
 ---
 
@@ -553,6 +556,87 @@ class AdConfig {
 
 ## トラブルシューティング
 
+### ⚠️ iPad対応の重要な注意事項
+
+iPadで広告が表示されない問題は、App Storeレビューでリジェクトされる原因になります。以下の点に注意してください。
+
+#### 問題: iPadで「No ad to show」エラーが発生する
+
+**原因**: 固定サイズのバナー（`AdSize.banner` = 320x50）はiPadの画面幅に最適化されておらず、広告在庫がない場合がある
+
+**解決策**: **アダプティブバナー**を使用する
+
+```dart
+// ❌ 固定サイズ（iPadで問題が発生する可能性）
+final BannerAd banner = BannerAd(
+  adUnitId: adUnitId,
+  size: AdSize.banner,  // 320x50 固定
+  // ...
+);
+
+// ✅ アダプティブバナー（iPhone/iPad両対応）
+final double screenWidth = MediaQuery.of(context).size.width;
+final int adWidth = screenWidth.truncate();
+final AdSize? adaptiveSize = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(adWidth);
+
+final BannerAd banner = BannerAd(
+  adUnitId: adUnitId,
+  size: adaptiveSize!,  // デバイスに最適化されたサイズ
+  // ...
+);
+```
+
+#### アダプティブバナー用テストID
+
+**重要**: アダプティブバナーには**専用のテストID**が必要です。固定バナー用のテストIDでは動作しません。
+
+| 種類 | iOS | Android |
+|------|-----|---------|
+| **固定バナー** | `ca-app-pub-3940256099942544/2934735716` | `ca-app-pub-3940256099942544/6300978111` |
+| **アダプティブバナー** | `ca-app-pub-3940256099942544/2435281174` | `ca-app-pub-3940256099942544/9214589741` |
+
+#### 広告ロード失敗時のエラーハンドリング
+
+広告がロードできない場合に、ローディングスピナーが永遠に表示されるとユーザー体験が悪化し、App Storeレビューでリジェクトされます。
+
+```dart
+class _AdBannerState extends State<AdBanner> {
+  bool _isLoaded = false;
+  bool _hasError = false;  // ← エラー状態を追跡
+  Timer? _timeoutTimer;
+
+  void _loadBanner() {
+    // タイムアウトを設定（15秒）
+    _timeoutTimer = Timer(const Duration(seconds: 15), () {
+      if (!_isLoaded && mounted) {
+        setState(() => _hasError = true);
+      }
+    });
+
+    // ... 広告ロード処理
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // エラー時は何も表示しない（スピナーを隠す）
+    if (_hasError) {
+      return const SizedBox.shrink();
+    }
+    // ...
+  }
+}
+```
+
+#### iPad対応チェックリスト
+
+- [ ] アダプティブバナーを使用している
+- [ ] アダプティブバナー用のテストIDを使用している
+- [ ] 広告ロード失敗時のエラーハンドリングがある
+- [ ] タイムアウト処理がある（15秒推奨）
+- [ ] iPadシミュレータで動作確認済み
+
+---
+
 ### よくあるエラーと解決方法
 
 #### 1. `MobileAds.instance.initialize()` でクラッシュ
@@ -640,4 +724,5 @@ cd android
 | 日付 | バージョン | 内容 |
 |------|-----------|------|
 | 2025-12-05 | 1.0.0 | 初版作成 |
+| 2025-12-09 | 1.1.0 | iPad対応の注意事項を追加（アダプティブバナー、エラーハンドリング） |
 

@@ -25,6 +25,16 @@ void main() async {
   // AdMob SDKの初期化
   await MobileAds.instance.initialize();
 
+  // テストデバイスの設定（シミュレータ・実機テスト用）
+  // これにより、テスト広告が確実に表示される
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      // iOSシミュレータは自動的にテストデバイスとして認識される
+      // 実機テスト時はコンソールに出力されるデバイスIDを追加
+      testDeviceIds: <String>[],
+    ),
+  );
+
   // iOS ATTダイアログの表示
   await _requestTrackingAuthorization();
 
@@ -72,11 +82,7 @@ class PinkItoApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: const [
-          Locale('ja'),
-          Locale('en'),
-          Locale('ko'),
-        ],
+        supportedLocales: const [Locale('ja'), Locale('en'), Locale('ko')],
         initialRoute: '/',
         onGenerateRoute: _generateRoute,
       ),
@@ -98,9 +104,7 @@ class PinkItoApp extends StatelessWidget {
         );
 
       case '/how-to-play':
-        return FadeSlideRoute(
-          page: const HowToPlayScreen(),
-        );
+        return FadeSlideRoute(page: const HowToPlayScreen());
 
       case '/player-setup':
         return FadeSlideRoute(
@@ -165,10 +169,9 @@ class PinkItoApp extends StatelessWidget {
               );
             },
             onReset: (context) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                '/',
-                (route) => false,
-              );
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil('/', (route) => false);
             },
           ),
         );
