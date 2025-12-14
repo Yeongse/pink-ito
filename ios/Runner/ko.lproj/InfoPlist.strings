@@ -1,0 +1,2 @@
+/* ATT (App Tracking Transparency) permission description */
+"NSUserTrackingUsageDescription" = "보다 관련성 높은 광고를 표시하기 위해 기기 식별자를 사용합니다.";

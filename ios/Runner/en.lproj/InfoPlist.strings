@@ -1,0 +1,2 @@
+/* ATT (App Tracking Transparency) permission description */
+"NSUserTrackingUsageDescription" = "We use device identifiers to show you more relevant ads.";

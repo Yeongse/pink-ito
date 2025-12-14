@@ -3,6 +3,10 @@
         android:label="pink_ito"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- ========== AdMob設定 ========== -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6257323478670896~5418127997" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
