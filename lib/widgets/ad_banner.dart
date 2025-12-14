@@ -25,9 +25,6 @@ class _AdBannerState extends State<AdBanner> {
   /// 広告ロードのタイムアウト時間（秒）
   static const int _loadTimeoutSeconds = 15;
 
-  /// アダプティブバナーの高さ（デフォルト値）
-  static const double _defaultBannerHeight = 60.0;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -125,16 +122,13 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    // エラー発生時またはタイムアウト時は何も表示しない
-    if (_hasError) {
+    // 広告がロードされていない場合は何も表示しない
+    // （ローディングスピナーも表示しない - App Store審査対策）
+    if (!_isLoaded || _bannerAd == null || _hasError) {
       return const SizedBox.shrink();
     }
 
-    // 広告がロードされた場合はそのサイズを使用
-    final double bannerHeight = _isLoaded && _bannerAd != null
-        ? _bannerAd!.size.height.toDouble()
-        : _defaultBannerHeight;
-
+    // 広告がロードされた場合のみ表示
     return Container(
       width: double.infinity,
       color: AppColors.darkBg,
@@ -142,27 +136,8 @@ class _AdBannerState extends State<AdBanner> {
         top: false, // 上部のセーフエリアは無視
         child: SizedBox(
           width: double.infinity,
-          height: bannerHeight,
-          child: _isLoaded && _bannerAd != null
-              ? AdWidget(ad: _bannerAd!)
-              : _buildPlaceholder(),
-        ),
-      ),
-    );
-  }
-
-  /// 広告ロード中のプレースホルダー
-  Widget _buildPlaceholder() {
-    return Container(
-      color: AppColors.darkSurface,
-      child: Center(
-        child: SizedBox(
-          width: 16,
-          height: 16,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.mutedGray),
-          ),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
         ),
       ),
     );

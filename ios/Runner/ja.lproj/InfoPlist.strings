@@ -1,0 +1,2 @@
+/* ATT (App Tracking Transparency) permission description */
+"NSUserTrackingUsageDescription" = "より関連性の高い広告を表示するために、デバイス識別子を使用します。";
